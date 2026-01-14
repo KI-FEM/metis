@@ -1,0 +1,4620 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "FastAPI",
+        "version": "0.1.0"
+    },
+    "paths": {
+        "/metrics": {
+            "get": {
+                "summary": "Metrics",
+                "description": "Endpoint that serves Prometheus metrics.",
+                "operationId": "metrics_metrics_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/learning_types": {
+            "get": {
+                "summary": "Get Learning Types",
+                "description": "Retrieve set learning types.",
+                "operationId": "get_learning_types_learning_types_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LearningTypesResponseModel"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/health": {
+            "get": {
+                "summary": "Health",
+                "description": "Liveness probe endpoint - checks if the application is running.",
+                "operationId": "health_health_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StatusModel"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/health/ready": {
+            "get": {
+                "summary": "Health Ready",
+                "description": "Readiness probe endpoint.\n\nYou might want to add more checks here, such as:\n- Database connectivity\n- External service dependencies\n- Cache availability",
+                "operationId": "health_ready_health_ready_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/topics": {
+            "get": {
+                "summary": "Get Topics",
+                "description": "Retrieve registered topics.",
+                "operationId": "get_topics_topics_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TopicListModel"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/models": {
+            "get": {
+                "summary": "Get Models",
+                "description": "Retrieve available LLM models with their health status.",
+                "operationId": "get_models_models_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AIModelsResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/topic/{topic}/modules": {
+            "get": {
+                "summary": "Get Modules",
+                "description": "Retrieve modules of the bot.",
+                "operationId": "get_modules_topic__topic__modules_get",
+                "parameters": [
+                    {
+                        "name": "topic",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Bot topic identifier",
+                            "title": "Topic"
+                        },
+                        "description": "Bot topic identifier"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ModulesResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/models/health": {
+            "get": {
+                "summary": "Get Models Health",
+                "description": "Get the health of the models.",
+                "operationId": "get_models_health_models_health_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "additionalProperties": {
+                                        "type": "string"
+                                    },
+                                    "type": "object",
+                                    "title": "Response Get Models Health Models Health Get"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/topic/{topic}": {
+            "post": {
+                "summary": "Init Chat",
+                "operationId": "init_chat_topic__topic__post",
+                "parameters": [
+                    {
+                        "name": "topic",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Bot topic identifier",
+                            "title": "Topic"
+                        },
+                        "description": "Bot topic identifier"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RequestModel"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/topic/{topic}/message": {
+            "post": {
+                "summary": "Chat Invoke",
+                "operationId": "chat_invoke_topic__topic__message_post",
+                "parameters": [
+                    {
+                        "name": "topic",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Bot topic identifier",
+                            "title": "Topic"
+                        },
+                        "description": "Bot topic identifier"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RequestModel"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Response"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/topic/{topic}/title": {
+            "post": {
+                "summary": "Update Title",
+                "operationId": "update_title_topic__topic__title_post",
+                "parameters": [
+                    {
+                        "name": "topic",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Bot topic identifier",
+                            "title": "Topic"
+                        },
+                        "description": "Bot topic identifier"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RequestModel"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TitleResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/topic/{topic}/inspiration": {
+            "post": {
+                "summary": "Inspiration",
+                "operationId": "inspiration_topic__topic__inspiration_post",
+                "parameters": [
+                    {
+                        "name": "topic",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Bot topic identifier",
+                            "title": "Topic"
+                        },
+                        "description": "Bot topic identifier"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RequestModel"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InspirationsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/topic/{topic}/message/comment": {
+            "post": {
+                "summary": "Comment",
+                "operationId": "comment_topic__topic__message_comment_post",
+                "parameters": [
+                    {
+                        "name": "topic",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Bot topic identifier",
+                            "title": "Topic"
+                        },
+                        "description": "Bot topic identifier"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CommentRequestModel"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CommentResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/topic/{topic}/message/vote": {
+            "post": {
+                "summary": "Vote",
+                "operationId": "vote_topic__topic__message_vote_post",
+                "parameters": [
+                    {
+                        "name": "topic",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Bot topic identifier",
+                            "title": "Topic"
+                        },
+                        "description": "Bot topic identifier"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MessageVoteRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MessageVoteResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/topic/{topic}/quiz": {
+            "post": {
+                "summary": "Quiz",
+                "operationId": "quiz_topic__topic__quiz_post",
+                "parameters": [
+                    {
+                        "name": "topic",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Bot topic identifier",
+                            "title": "Topic"
+                        },
+                        "description": "Bot topic identifier"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RequestModel"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Answer Quiz",
+                "operationId": "answer_quiz_topic__topic__quiz_put",
+                "parameters": [
+                    {
+                        "name": "topic",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Bot topic identifier",
+                            "title": "Topic"
+                        },
+                        "description": "Bot topic identifier"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/QuizAnswersRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Response"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/topic/{topic}/initial_quiz": {
+            "post": {
+                "summary": "Initial Quiz",
+                "operationId": "initial_quiz_topic__topic__initial_quiz_post",
+                "parameters": [
+                    {
+                        "name": "topic",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Bot topic identifier",
+                            "title": "Topic"
+                        },
+                        "description": "Bot topic identifier"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RequestModel"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InitialQuizModel"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/topic/{topic}/answer_initial_quiz": {
+            "post": {
+                "summary": "Answer Initial Quiz",
+                "operationId": "answer_initial_quiz_topic__topic__answer_initial_quiz_post",
+                "parameters": [
+                    {
+                        "name": "topic",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Bot topic identifier",
+                            "title": "Topic"
+                        },
+                        "description": "Bot topic identifier"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/InitialQuizAnswersRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InitialQuizAnswersRecommendation"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/topic/{topic}/quiz/evaluate": {
+            "post": {
+                "summary": "Evaluate Quiz Question",
+                "operationId": "evaluate_quiz_question_topic__topic__quiz_evaluate_post",
+                "parameters": [
+                    {
+                        "name": "topic",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Bot topic identifier",
+                            "title": "Topic"
+                        },
+                        "description": "Bot topic identifier"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/QuizQuestionEvaluationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/QuizQuestionEvaluationResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/topic/{topic}/quiz/complete": {
+            "post": {
+                "summary": "Complete Quiz",
+                "operationId": "complete_quiz_topic__topic__quiz_complete_post",
+                "parameters": [
+                    {
+                        "name": "topic",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Bot topic identifier",
+                            "title": "Topic"
+                        },
+                        "description": "Bot topic identifier"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/QuizCompletionRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/QuizCompletionResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/topic/{topic}/feedback": {
+            "post": {
+                "summary": "Feedback",
+                "operationId": "feedback_topic__topic__feedback_post",
+                "parameters": [
+                    {
+                        "name": "topic",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Bot topic identifier",
+                            "title": "Topic"
+                        },
+                        "description": "Bot topic identifier"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FeedbackRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Response"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/topic/{topic}/plan-session": {
+            "post": {
+                "summary": "Plan Session",
+                "operationId": "plan_session_topic__topic__plan_session_post",
+                "parameters": [
+                    {
+                        "name": "topic",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Bot topic identifier",
+                            "title": "Topic"
+                        },
+                        "description": "Bot topic identifier"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RequestModel"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PlanResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/topic/{topic}/summarize": {
+            "post": {
+                "summary": "Summarize",
+                "description": "Summarize the chat history asynchronously.",
+                "operationId": "summarize_topic__topic__summarize_post",
+                "parameters": [
+                    {
+                        "name": "topic",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Bot topic identifier",
+                            "title": "Topic"
+                        },
+                        "description": "Bot topic identifier"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RequestModel"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SummaryResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/topic/{topic}/{endpoint}": {
+            "post": {
+                "summary": "Action Callback",
+                "operationId": "action_callback_topic__topic___endpoint__post",
+                "parameters": [
+                    {
+                        "name": "endpoint",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Endpoint"
+                        }
+                    },
+                    {
+                        "name": "topic",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Bot topic identifier",
+                            "title": "Topic"
+                        },
+                        "description": "Bot topic identifier"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RequestModel"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/learning_types/from_personality/{personality_type}": {
+            "get": {
+                "summary": "Convert Personality Type",
+                "description": "Convert personality type to learning type.",
+                "operationId": "convert_personality_type_learning_types_from_personality__personality_type__get",
+                "parameters": [
+                    {
+                        "name": "personality_type",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/PersonalityType"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PersonalityTypeConversionResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/configure": {
+            "post": {
+                "summary": "Set Bots Disabled",
+                "operationId": "set_bots_disabled_admin_configure_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ConfigureTopicsRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConfigureTopicsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/config": {
+            "post": {
+                "summary": "Update Config",
+                "description": "Update the configuration file with new values.",
+                "operationId": "update_config_admin_config_post",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ConfigUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConfigureTopicsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Get Config By Key",
+                "description": "Get the current configuration values using query parameter.",
+                "operationId": "get_config_by_key_admin_config_get",
+                "parameters": [
+                    {
+                        "name": "key",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "title": "Key"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConfigReadResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/refresh-scads-bots": {
+            "post": {
+                "summary": "Refresh Scads Bots",
+                "description": "Refresh ScaDS.AI assistant bots from the external API.",
+                "operationId": "refresh_scads_bots_admin_refresh_scads_bots_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AdminRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RefreshScadsBotsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/dev/db/schema/drop": {
+            "get": {
+                "summary": "Drop Schema",
+                "operationId": "drop_schema_dev_db_schema_drop_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DevResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/dev/db/schema/create": {
+            "get": {
+                "summary": "Create Schema",
+                "operationId": "create_schema_dev_db_schema_create_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DevResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/dev/db/schema/load": {
+            "get": {
+                "summary": "Load Schema",
+                "operationId": "load_schema_dev_db_schema_load_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DevResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/dev/db/data/load": {
+            "get": {
+                "summary": "Load Data",
+                "operationId": "load_data_dev_db_data_load_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DevResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/dev/db/schema/valid": {
+            "get": {
+                "summary": "Get Schema",
+                "operationId": "get_schema_dev_db_schema_valid_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DevResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/dev/db/connect": {
+            "get": {
+                "summary": "Connect Db",
+                "operationId": "connect_db_dev_db_connect_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DevResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AIModelsResponse": {
+                "properties": {
+                    "purposes": {
+                        "items": {
+                            "$ref": "#/components/schemas/PurposeModel"
+                        },
+                        "type": "array",
+                        "title": "Purposes"
+                    },
+                    "timestamp": {
+                        "type": "number",
+                        "title": "Timestamp"
+                    },
+                    "config": {
+                        "$ref": "#/components/schemas/ChatConfig"
+                    },
+                    "error": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Error"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "purposes",
+                    "timestamp",
+                    "config"
+                ],
+                "title": "AIModelsResponse",
+                "description": "Response model for models with status."
+            },
+            "AdminRequest": {
+                "properties": {
+                    "key": {
+                        "type": "string",
+                        "title": "Key"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "key"
+                ],
+                "title": "AdminRequest",
+                "description": "Base model for admin requests."
+            },
+            "AvailableLearningTypes": {
+                "type": "string",
+                "enum": [
+                    "FEELING",
+                    "SENSING",
+                    "INTUITIVE",
+                    "THINKING"
+                ],
+                "title": "AvailableLearningTypes",
+                "description": "Enumeration of available learning types.\n\nThis enum lists all available learning types for the application.\n\nArgs:\n    ...\n\nReturns:\n    None"
+            },
+            "Button": {
+                "properties": {
+                    "chat_message": {
+                        "type": "string",
+                        "title": "Chat Message"
+                    },
+                    "label": {
+                        "type": "string",
+                        "title": "Label"
+                    },
+                    "callback": {
+                        "$ref": "#/components/schemas/ButtonCallback"
+                    },
+                    "store": {
+                        "additionalProperties": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                },
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "items": {},
+                                    "type": "array"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/LearnerModel-Output"
+                                }
+                            ]
+                        },
+                        "type": "object",
+                        "title": "Store",
+                        "default": {}
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "chat_message",
+                    "label",
+                    "callback"
+                ],
+                "title": "Button",
+                "description": "Represents a button in the chat UI.\n\nThis class is used to define a button that can be displayed in the chat\ninterface, including its label, callback, and optional chat message or state\nstore.\n\nArgs:\n    label (str): The text displayed on the button.\n    callback (ButtonCallback): The callback to be triggered when the button\n        is pressed.\n    chat_message (Optional[str]): The message to send when the button is pressed.\n    store (Optional[dict]): State to store when the button is pressed.\n\nReturns:\n    None"
+            },
+            "ButtonCallback": {
+                "properties": {
+                    "endpoint": {
+                        "type": "string",
+                        "title": "Endpoint"
+                    },
+                    "data": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "type": "object",
+                        "title": "Data"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "endpoint",
+                    "data"
+                ],
+                "title": "ButtonCallback",
+                "description": "Represents a callback for a button.\n\nThis class defines the callback endpoint and data to be sent when a button\nis pressed in the chat UI.\n\nArgs:\n    endpoint (str): The endpoint to call.\n    data (dict): The data to send to the endpoint.\n\nReturns:\n    None"
+            },
+            "ChatConfig": {
+                "properties": {
+                    "max_messages_before_summarization": {
+                        "type": "integer",
+                        "title": "Max Messages Before Summarization"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "max_messages_before_summarization"
+                ],
+                "title": "ChatConfig",
+                "description": "Configuration from the backend for the chat in the frontend.\n\nArgs:\n    max_messages_before_summarization (int): The maximum number of messages before\n        summarization is triggered."
+            },
+            "CommentRequestModel": {
+                "properties": {
+                    "vote": {
+                        "anyOf": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Vote"
+                    },
+                    "comment": {
+                        "type": "string",
+                        "title": "Comment"
+                    },
+                    "trace_id": {
+                        "type": "string",
+                        "title": "Trace Id"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "vote",
+                    "comment",
+                    "trace_id"
+                ],
+                "title": "CommentRequestModel",
+                "description": "Request model for adding comments to messages.\n\nArgs:\n    comment (str): The comment to be added to the message.\n    trace_id (str): The trace ID associated with the message.\n\nReturns:\n    None"
+            },
+            "CommentResponse": {
+                "properties": {
+                    "error": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorReport"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "title": "Success"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "success"
+                ],
+                "title": "CommentResponse",
+                "description": "Represents a response for a message comment.\n\nArgs:\n    success (bool): Indicates if the comment was successfully generated.\n\nReturns:\n    None"
+            },
+            "ConfigReadResponse": {
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "title": "Success"
+                    },
+                    "error_message": {
+                        "type": "string",
+                        "title": "Error Message",
+                        "default": ""
+                    },
+                    "config": {
+                        "anyOf": [
+                            {
+                                "additionalProperties": true,
+                                "type": "object"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Config"
+                    },
+                    "purposes": {
+                        "anyOf": [
+                            {
+                                "additionalProperties": {
+                                    "$ref": "#/components/schemas/PurposeDB"
+                                },
+                                "type": "object"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Purposes"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "success"
+                ],
+                "title": "ConfigReadResponse",
+                "description": "Response model for reading configuration."
+            },
+            "ConfigUpdateRequest": {
+                "properties": {
+                    "key": {
+                        "type": "string",
+                        "title": "Key"
+                    },
+                    "updates": {
+                        "additionalProperties": true,
+                        "type": "object",
+                        "title": "Updates",
+                        "description": "Config values to update"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "key",
+                    "updates"
+                ],
+                "title": "ConfigUpdateRequest",
+                "description": "Request model for updating configuration values."
+            },
+            "ConfigureTopicsRequest": {
+                "properties": {
+                    "key": {
+                        "type": "string",
+                        "title": "Key"
+                    },
+                    "enabled": {
+                        "additionalProperties": {
+                            "type": "boolean"
+                        },
+                        "type": "object",
+                        "title": "Enabled"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "key",
+                    "enabled"
+                ],
+                "title": "ConfigureTopicsRequest",
+                "description": "Request model for configuring topics."
+            },
+            "ConfigureTopicsResponse": {
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "title": "Success"
+                    },
+                    "error_message": {
+                        "type": "string",
+                        "title": "Error Message",
+                        "default": ""
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "success"
+                ],
+                "title": "ConfigureTopicsResponse",
+                "description": "Response model for configuring topics."
+            },
+            "DevResponse": {
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "title": "Success"
+                    },
+                    "message": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "data": {
+                        "additionalProperties": true,
+                        "type": "object",
+                        "title": "Data"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "success",
+                    "message"
+                ],
+                "title": "DevResponse"
+            },
+            "ErrorReport": {
+                "properties": {
+                    "error": {
+                        "type": "string",
+                        "title": "Error"
+                    },
+                    "context": {
+                        "additionalProperties": true,
+                        "type": "object",
+                        "title": "Context",
+                        "default": {}
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "error"
+                ],
+                "title": "ErrorReport",
+                "description": "Represents an error report for a chat session.\n\nThis class is used to report errors encountered during the chat session,\nincluding the error message and any additional context.\n\nArgs:\n    error (str): The error message.\n    context (Optional[dict]): Additional context or data related to the error.\n\nReturns:\n    None"
+            },
+            "Features": {
+                "type": "string",
+                "enum": [
+                    "title",
+                    "inspirations",
+                    "initiative",
+                    "initial_quiz",
+                    "quiz",
+                    "feedback",
+                    "plan",
+                    "streaming",
+                    "summary",
+                    "aimodel",
+                    "scientific_paper_context",
+                    "wip",
+                    "dashboard"
+                ],
+                "title": "Features",
+                "description": "Features of the bot."
+            },
+            "Feedback": {
+                "properties": {
+                    "learning_type_rating": {
+                        "type": "integer",
+                        "title": "Learning Type Rating"
+                    },
+                    "comment": {
+                        "type": "string",
+                        "title": "Comment"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "learning_type_rating",
+                    "comment"
+                ],
+                "title": "Feedback",
+                "description": "The format of the feedback."
+            },
+            "FeedbackRequest": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "title": "Id"
+                    },
+                    "language": {
+                        "type": "string",
+                        "title": "Language"
+                    },
+                    "chat_history": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/components/schemas/Message"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/Summary"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Chat History"
+                    },
+                    "storage": {
+                        "additionalProperties": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                },
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "items": {},
+                                    "type": "array"
+                                },
+                                {
+                                    "additionalProperties": true,
+                                    "type": "object"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/LearnerModel-Input"
+                                }
+                            ]
+                        },
+                        "type": "object",
+                        "title": "Storage",
+                        "default": {}
+                    },
+                    "llm_purpose": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/LLMPurpose"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "The purpose of the LLM to use (e.g., 'optimal' or 'reasoning')"
+                    },
+                    "response_preferences": {
+                        "$ref": "#/components/schemas/ResponsePreferences"
+                    },
+                    "streaming": {
+                        "type": "boolean",
+                        "title": "Streaming",
+                        "default": false
+                    },
+                    "feedback": {
+                        "$ref": "#/components/schemas/Feedback"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "language",
+                    "chat_history",
+                    "response_preferences",
+                    "feedback"
+                ],
+                "title": "FeedbackRequest",
+                "description": "The format of the feedback request."
+            },
+            "FillInTheBlanksQuestion": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "title": "Id"
+                    },
+                    "title": {
+                        "type": "string",
+                        "title": "Title"
+                    },
+                    "text": {
+                        "type": "string",
+                        "title": "Text"
+                    },
+                    "type": {
+                        "type": "string",
+                        "const": "fill-in-the-blanks",
+                        "title": "Type",
+                        "default": "fill-in-the-blanks"
+                    },
+                    "score": {
+                        "prefixItems": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "integer"
+                            }
+                        ],
+                        "type": "array",
+                        "maxItems": 2,
+                        "minItems": 2,
+                        "title": "Score"
+                    },
+                    "hint": {
+                        "type": "string",
+                        "title": "Hint"
+                    },
+                    "learning_unit": {
+                        "type": "string",
+                        "title": "Learning Unit"
+                    },
+                    "answered": {
+                        "type": "boolean",
+                        "title": "Answered",
+                        "default": false
+                    },
+                    "feedback": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Feedback"
+                    },
+                    "is_correct": {
+                        "anyOf": [
+                            {
+                                "type": "boolean"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Is Correct"
+                    },
+                    "template": {
+                        "type": "string",
+                        "title": "Template"
+                    },
+                    "solution": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Solution"
+                    },
+                    "answer": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Answer"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "title",
+                    "text",
+                    "score",
+                    "hint",
+                    "learning_unit",
+                    "template",
+                    "solution"
+                ],
+                "title": "FillInTheBlanksQuestion",
+                "description": "The format for a fill-in-the-blanks question."
+            },
+            "HTTPValidationError": {
+                "properties": {
+                    "detail": {
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        },
+                        "type": "array",
+                        "title": "Detail"
+                    }
+                },
+                "type": "object",
+                "title": "HTTPValidationError"
+            },
+            "InitialQuizAnswersRecommendation": {
+                "properties": {
+                    "error": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorReport"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "quiz_performance_below": {
+                        "type": "integer",
+                        "title": "Quiz Performance Below"
+                    },
+                    "quiz_performance_at_level": {
+                        "type": "integer",
+                        "title": "Quiz Performance At Level"
+                    },
+                    "quiz_performance_above": {
+                        "type": "integer",
+                        "title": "Quiz Performance Above"
+                    },
+                    "quiz_recommended_change": {
+                        "type": "integer",
+                        "title": "Quiz Recommended Change"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "quiz_performance_below",
+                    "quiz_performance_at_level",
+                    "quiz_performance_above",
+                    "quiz_recommended_change"
+                ],
+                "title": "InitialQuizAnswersRecommendation",
+                "description": "The format of the recommendation based on the initial quiz answers."
+            },
+            "InitialQuizAnswersRequest": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "title": "Id"
+                    },
+                    "language": {
+                        "type": "string",
+                        "title": "Language"
+                    },
+                    "chat_history": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/components/schemas/Message"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/Summary"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Chat History"
+                    },
+                    "storage": {
+                        "additionalProperties": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                },
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "items": {},
+                                    "type": "array"
+                                },
+                                {
+                                    "additionalProperties": true,
+                                    "type": "object"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/LearnerModel-Input"
+                                }
+                            ]
+                        },
+                        "type": "object",
+                        "title": "Storage",
+                        "default": {}
+                    },
+                    "llm_purpose": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/LLMPurpose"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "The purpose of the LLM to use (e.g., 'optimal' or 'reasoning')"
+                    },
+                    "response_preferences": {
+                        "$ref": "#/components/schemas/ResponsePreferences"
+                    },
+                    "streaming": {
+                        "type": "boolean",
+                        "title": "Streaming",
+                        "default": false
+                    },
+                    "correct_question_ids": {
+                        "items": {
+                            "type": "integer"
+                        },
+                        "type": "array",
+                        "title": "Correct Question Ids"
+                    },
+                    "questions_asked_per_level": {
+                        "prefixItems": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "integer"
+                            }
+                        ],
+                        "type": "array",
+                        "maxItems": 3,
+                        "minItems": 3,
+                        "title": "Questions Asked Per Level"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "language",
+                    "chat_history",
+                    "response_preferences",
+                    "correct_question_ids",
+                    "questions_asked_per_level"
+                ],
+                "title": "InitialQuizAnswersRequest",
+                "description": "The format of the request to submit the answers to the initial quiz."
+            },
+            "InitialQuizModel": {
+                "properties": {
+                    "error": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorReport"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "id": {
+                        "type": "string",
+                        "title": "Id"
+                    },
+                    "title": {
+                        "type": "string",
+                        "title": "Title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Description"
+                    },
+                    "questions": {
+                        "items": {
+                            "oneOf": [
+                                {
+                                    "$ref": "#/components/schemas/MultipleChoiceQuestion"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/SliderQuestion"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/TextQuestion"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/FillInTheBlanksQuestion"
+                                }
+                            ],
+                            "discriminator": {
+                                "propertyName": "type",
+                                "mapping": {
+                                    "fill-in-the-blanks": "#/components/schemas/FillInTheBlanksQuestion",
+                                    "free-text": "#/components/schemas/TextQuestion",
+                                    "multiple-choice": "#/components/schemas/MultipleChoiceQuestion",
+                                    "slider": "#/components/schemas/SliderQuestion"
+                                }
+                            }
+                        },
+                        "type": "array",
+                        "title": "Questions"
+                    },
+                    "completed": {
+                        "type": "boolean",
+                        "title": "Completed",
+                        "default": false
+                    },
+                    "score": {
+                        "prefixItems": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "integer"
+                            }
+                        ],
+                        "type": "array",
+                        "maxItems": 2,
+                        "minItems": 2,
+                        "title": "Score"
+                    },
+                    "quiz_questions_asked_per_level": {
+                        "prefixItems": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "integer"
+                            }
+                        ],
+                        "type": "array",
+                        "maxItems": 3,
+                        "minItems": 3,
+                        "title": "Quiz Questions Asked Per Level"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "title",
+                    "description",
+                    "questions",
+                    "score",
+                    "quiz_questions_asked_per_level"
+                ],
+                "title": "InitialQuizModel",
+                "description": "The format of the initial quiz."
+            },
+            "InspirationsResponse": {
+                "properties": {
+                    "error": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorReport"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "messages": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Messages"
+                    },
+                    "storage": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "type": "object",
+                        "title": "Storage",
+                        "default": {}
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "messages"
+                ],
+                "title": "InspirationsResponse",
+                "description": "The format of the response to get inspirations."
+            },
+            "LLMPurpose": {
+                "type": "string",
+                "enum": [
+                    "optimal",
+                    "reasoning",
+                    "german",
+                    "agent",
+                    "agent-thinking-loop",
+                    "agent-strategy-loop"
+                ],
+                "title": "LLMPurpose",
+                "description": "Purpose of the LLM."
+            },
+            "LearnerModel-Input": {
+                "properties": {
+                    "competences": {
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/LearnerModelCompetence-Input"
+                        },
+                        "type": "object",
+                        "title": "Competences",
+                        "default": {}
+                    },
+                    "learning_units": {
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/LearnerModelLearningUnitInternal"
+                        },
+                        "type": "object",
+                        "title": "Learning Units",
+                        "default": {}
+                    }
+                },
+                "type": "object",
+                "title": "LearnerModel",
+                "description": "The learner model."
+            },
+            "LearnerModel-Output": {
+                "properties": {
+                    "competences": {
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/LearnerModelCompetence-Output"
+                        },
+                        "type": "object",
+                        "title": "Competences",
+                        "default": {}
+                    },
+                    "learning_units": {
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/LearnerModelLearningUnitInternal"
+                        },
+                        "type": "object",
+                        "title": "Learning Units",
+                        "default": {}
+                    }
+                },
+                "type": "object",
+                "title": "LearnerModel",
+                "description": "The learner model."
+            },
+            "LearnerModelCompetence-Input": {
+                "properties": {
+                    "competence_id": {
+                        "type": "integer",
+                        "title": "Competence Id"
+                    },
+                    "competence_code": {
+                        "type": "string",
+                        "title": "Competence Code"
+                    },
+                    "competence_level": {
+                        "type": "integer",
+                        "title": "Competence Level"
+                    },
+                    "concepts": {
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/LearnerModelConcept-Input"
+                        },
+                        "type": "object",
+                        "title": "Concepts",
+                        "default": {}
+                    },
+                    "name": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Name",
+                        "default": {
+                            "en": "Competence",
+                            "de": "Kompetenz"
+                        }
+                    },
+                    "completed": {
+                        "type": "boolean",
+                        "title": "Completed",
+                        "default": false
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "competence_id",
+                    "competence_code",
+                    "competence_level"
+                ],
+                "title": "LearnerModelCompetence",
+                "description": "The learner model."
+            },
+            "LearnerModelCompetence-Output": {
+                "properties": {
+                    "competence_id": {
+                        "type": "integer",
+                        "title": "Competence Id"
+                    },
+                    "competence_code": {
+                        "type": "string",
+                        "title": "Competence Code"
+                    },
+                    "competence_level": {
+                        "type": "integer",
+                        "title": "Competence Level"
+                    },
+                    "concepts": {
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/LearnerModelConcept-Output"
+                        },
+                        "type": "object",
+                        "title": "Concepts",
+                        "default": {}
+                    },
+                    "name": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Name",
+                        "default": {
+                            "en": "Competence",
+                            "de": "Kompetenz"
+                        }
+                    },
+                    "completed": {
+                        "type": "boolean",
+                        "title": "Completed",
+                        "default": false
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "competence_id",
+                    "competence_code",
+                    "competence_level"
+                ],
+                "title": "LearnerModelCompetence",
+                "description": "The learner model."
+            },
+            "LearnerModelConcept-Input": {
+                "properties": {
+                    "concept_id": {
+                        "type": "integer",
+                        "title": "Concept Id"
+                    },
+                    "concept_code": {
+                        "type": "string",
+                        "title": "Concept Code"
+                    },
+                    "name": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Name",
+                        "default": {
+                            "en": "Concept",
+                            "de": "Konzept"
+                        }
+                    },
+                    "custom_learning_goals": {
+                        "type": "string",
+                        "title": "Custom Learning Goals",
+                        "default": ""
+                    },
+                    "learning_units": {
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/LearnerModelLearningUnit"
+                        },
+                        "type": "object",
+                        "title": "Learning Units",
+                        "default": {}
+                    },
+                    "completed": {
+                        "type": "boolean",
+                        "title": "Completed",
+                        "default": false
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "concept_id",
+                    "concept_code"
+                ],
+                "title": "LearnerModelConcept",
+                "description": "A competence in the learner model."
+            },
+            "LearnerModelConcept-Output": {
+                "properties": {
+                    "concept_id": {
+                        "type": "integer",
+                        "title": "Concept Id"
+                    },
+                    "concept_code": {
+                        "type": "string",
+                        "title": "Concept Code"
+                    },
+                    "name": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Name",
+                        "default": {
+                            "en": "Concept",
+                            "de": "Konzept"
+                        }
+                    },
+                    "custom_learning_goals": {
+                        "type": "string",
+                        "title": "Custom Learning Goals",
+                        "default": ""
+                    },
+                    "learning_units": {
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/LearnerModelLearningUnit"
+                        },
+                        "type": "object",
+                        "title": "Learning Units",
+                        "default": {}
+                    },
+                    "completed": {
+                        "type": "boolean",
+                        "title": "Completed",
+                        "default": false
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "concept_id",
+                    "concept_code"
+                ],
+                "title": "LearnerModelConcept",
+                "description": "A competence in the learner model."
+            },
+            "LearnerModelLearningUnit": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "title": "Id"
+                    },
+                    "code": {
+                        "type": "string",
+                        "title": "Code"
+                    },
+                    "name": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Name",
+                        "default": {
+                            "en": "Unit",
+                            "de": "Einheit"
+                        }
+                    },
+                    "times_seen": {
+                        "type": "integer",
+                        "title": "Times Seen",
+                        "default": 0
+                    },
+                    "last_seen": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Last Seen"
+                    },
+                    "times_quizzed": {
+                        "type": "integer",
+                        "title": "Times Quizzed",
+                        "default": 0
+                    },
+                    "times_correct": {
+                        "type": "integer",
+                        "title": "Times Correct",
+                        "default": 0
+                    },
+                    "last_quizzed": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Last Quizzed"
+                    },
+                    "completed": {
+                        "type": "boolean",
+                        "title": "Completed",
+                        "default": false
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "code"
+                ],
+                "title": "LearnerModelLearningUnit",
+                "description": "A learning unit in the learner model."
+            },
+            "LearnerModelLearningUnitInternal": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "title": "Id"
+                    },
+                    "code": {
+                        "type": "string",
+                        "title": "Code"
+                    },
+                    "name": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Name",
+                        "default": {
+                            "en": "Unit",
+                            "de": "Einheit"
+                        }
+                    },
+                    "times_seen": {
+                        "type": "integer",
+                        "title": "Times Seen",
+                        "default": 0
+                    },
+                    "last_seen": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Last Seen"
+                    },
+                    "times_quizzed": {
+                        "type": "integer",
+                        "title": "Times Quizzed",
+                        "default": 0
+                    },
+                    "times_correct": {
+                        "type": "integer",
+                        "title": "Times Correct",
+                        "default": 0
+                    },
+                    "last_quizzed": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Last Quizzed"
+                    },
+                    "completed": {
+                        "type": "boolean",
+                        "title": "Completed",
+                        "default": false
+                    },
+                    "competence_code": {
+                        "type": "string",
+                        "title": "Competence Code"
+                    },
+                    "concept_code": {
+                        "type": "string",
+                        "title": "Concept Code"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "code",
+                    "competence_code",
+                    "concept_code"
+                ],
+                "title": "LearnerModelLearningUnitInternal",
+                "description": "Internal representation of a learning unit in the learner model."
+            },
+            "LearningTypeModel": {
+                "properties": {
+                    "id": {
+                        "$ref": "#/components/schemas/AvailableLearningTypes"
+                    },
+                    "title": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Title"
+                    },
+                    "short_description": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Short Description"
+                    },
+                    "long_description": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Long Description"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "title",
+                    "short_description",
+                    "long_description"
+                ],
+                "title": "LearningTypeModel",
+                "description": "Represents a learning type model.\n\nThis class is used to define a learning type, including its ID, name, and\ndescription.\n\nArgs:\n    id (str): The unique identifier for the learning type.\n    name (str): The name of the learning type.\n    description (str): The description of the learning type.\n\nReturns:\n    None"
+            },
+            "LearningTypesResponseModel": {
+                "properties": {
+                    "learning_types": {
+                        "items": {
+                            "$ref": "#/components/schemas/LearningTypeModel"
+                        },
+                        "type": "array",
+                        "title": "Learning Types"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "learning_types"
+                ],
+                "title": "LearningTypesResponseModel",
+                "description": "Model for the available learning types."
+            },
+            "LocaleType": {
+                "type": "string",
+                "enum": [
+                    "en",
+                    "de"
+                ],
+                "title": "LocaleType",
+                "description": "Represents supported locale types.\n\nThis enum is used to define the supported locales for the application, such as\nEnglish and German.\n\nArgs:\n    EN: English locale.\n    DE: German locale.\n\nReturns:\n    None"
+            },
+            "Message": {
+                "properties": {
+                    "content": {
+                        "type": "string",
+                        "title": "Content"
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/MessageType"
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "title": "Timestamp"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "content",
+                    "type",
+                    "timestamp"
+                ],
+                "title": "Message",
+                "description": "Represents a single chat message.\n\nThis model is used to encapsulate a message exchanged in the chat, including\nthe sender, content, and optional metadata.\n\nArgs:\n    content (str): The content of the message.\n    type (str): The sender of the message (e.g., 'user', 'assistant').\n    summary (Optional[str]): Optional summary of the message.\n\nReturns:\n    None"
+            },
+            "MessageResponse": {
+                "properties": {
+                    "content": {
+                        "type": "string",
+                        "title": "Content"
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/MessageType",
+                        "default": "assistant"
+                    },
+                    "thoughts": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Thoughts"
+                    },
+                    "buttons": {
+                        "items": {
+                            "$ref": "#/components/schemas/Button"
+                        },
+                        "type": "array",
+                        "title": "Buttons",
+                        "default": []
+                    },
+                    "meta_information": {
+                        "$ref": "#/components/schemas/MetaInformation",
+                        "default": {}
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "content"
+                ],
+                "title": "MessageResponse",
+                "description": "Represents a message response from the bot.\n\nThis class is used to encapsulate a message sent by the bot, including the\nmessage content, sender, optional buttons, and meta information.\n\nArgs:\n    content (str): The message content.\n    type (Optional[str]): The sender of the message.\n    buttons (Optional[list[Button]]): List of buttons to display.\n    meta_information (Optional[MetaInformation]): Additional metadata for\n        the message.\n    thoughts (Optional[str]): Optional thoughts or reasoning.\n\nReturns:\n    None"
+            },
+            "MessageType": {
+                "type": "string",
+                "enum": [
+                    "assistant",
+                    "user",
+                    "system"
+                ],
+                "title": "MessageType",
+                "description": "The sender of a message."
+            },
+            "MessageVoteRequest": {
+                "properties": {
+                    "vote": {
+                        "type": "integer",
+                        "title": "Vote"
+                    },
+                    "trace_id": {
+                        "type": "string",
+                        "title": "Trace Id"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "vote",
+                    "trace_id"
+                ],
+                "title": "MessageVoteRequest",
+                "description": "Request model for voting on messages.\n\nArgs:\n    vote (int): The vote value, typically 1 for upvote and -1 for downvote.\n    trace_id (str): The trace ID associated with the message.\n    \nReturns:\n    None"
+            },
+            "MessageVoteResponse": {
+                "properties": {
+                    "error": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorReport"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "title": "Success"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "success"
+                ],
+                "title": "MessageVoteResponse",
+                "description": "Represents a response for a message vote.\n\nThis class is used to indicate whether the vote operation was successful.\n\nArgs:\n    success (bool): Indicates if the vote was successfully recorded.\n\nReturns:\n    None"
+            },
+            "MetaInformation": {
+                "properties": {
+                    "sources": {
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/Source"
+                        },
+                        "type": "object",
+                        "title": "Sources"
+                    },
+                    "citations": {
+                        "items": {
+                            "type": "integer"
+                        },
+                        "type": "array",
+                        "title": "Citations"
+                    },
+                    "llm_model": {
+                        "type": "string",
+                        "title": "Llm Model"
+                    }
+                },
+                "additionalProperties": true,
+                "type": "object",
+                "title": "MetaInformation",
+                "description": "Contains meta information for a message.\n\nThis class holds metadata such as sources and the LLM model used for\ngenerating the message.\n\nArgs:\n    sources (Optional[dict[int, Source]]): The sources for the message identified by\n        an integer id.\n    llm_model (Optional[str]): The name of the LLM model used.\n\nReturns:\n    None"
+            },
+            "Module": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "title": "Id"
+                    },
+                    "code": {
+                        "type": "string",
+                        "title": "Code"
+                    },
+                    "title": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Title"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "code",
+                    "title"
+                ],
+                "title": "Module",
+                "description": "Represents a simple module of a topic.\n\nThis class is used to define a module, including its ID and title.\nIn contrast to the Skill class, this class does not have multiple levels.\n\nArgs:\n    id (int): The unique identifier for the module.\n    code (str): The code of the module, typically used for identification.\n    title (dict): The localized titles for the module.\n    \nReturns:\n    None\n    "
+            },
+            "ModulesResponse": {
+                "properties": {
+                    "modules": {
+                        "items": {
+                            "$ref": "#/components/schemas/Module"
+                        },
+                        "type": "array",
+                        "title": "Modules"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "modules"
+                ],
+                "title": "ModulesResponse",
+                "description": "A Response model for retrieving multiple modules.\n\nThis model is used to return a list of modules.\n\nArgs:\n    modules (list[Module]): A list of modules.\n    \nReturns:\n    None\n    "
+            },
+            "MultipleChoiceQuestion": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "title": "Id"
+                    },
+                    "title": {
+                        "type": "string",
+                        "title": "Title"
+                    },
+                    "text": {
+                        "type": "string",
+                        "title": "Text"
+                    },
+                    "type": {
+                        "type": "string",
+                        "const": "multiple-choice",
+                        "title": "Type",
+                        "default": "multiple-choice"
+                    },
+                    "score": {
+                        "prefixItems": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "integer"
+                            }
+                        ],
+                        "type": "array",
+                        "maxItems": 2,
+                        "minItems": 2,
+                        "title": "Score"
+                    },
+                    "hint": {
+                        "type": "string",
+                        "title": "Hint"
+                    },
+                    "learning_unit": {
+                        "type": "string",
+                        "title": "Learning Unit"
+                    },
+                    "answered": {
+                        "type": "boolean",
+                        "title": "Answered",
+                        "default": false
+                    },
+                    "feedback": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Feedback"
+                    },
+                    "is_correct": {
+                        "anyOf": [
+                            {
+                                "type": "boolean"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Is Correct"
+                    },
+                    "options": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Options"
+                    },
+                    "solution": {
+                        "items": {
+                            "type": "integer"
+                        },
+                        "type": "array",
+                        "title": "Solution"
+                    },
+                    "answer": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "type": "integer"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Answer"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "title",
+                    "text",
+                    "score",
+                    "hint",
+                    "learning_unit",
+                    "options",
+                    "solution"
+                ],
+                "title": "MultipleChoiceQuestion",
+                "description": "The format for a multiple-choice question."
+            },
+            "PersonalityType": {
+                "type": "string",
+                "enum": [
+                    "ISTJ",
+                    "ISFJ",
+                    "ESTP",
+                    "ESFP",
+                    "INFJ",
+                    "INTJ",
+                    "ENFP",
+                    "ENTP",
+                    "ISTP",
+                    "INTP",
+                    "ESTJ",
+                    "ENTJ",
+                    "ISFP",
+                    "INFP",
+                    "ESFJ",
+                    "ENFJ"
+                ],
+                "title": "PersonalityType",
+                "description": "Enumeration of the 16 personality types."
+            },
+            "PersonalityTypeConversionResponse": {
+                "properties": {
+                    "learning_type": {
+                        "$ref": "#/components/schemas/AvailableLearningTypes"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "learning_type"
+                ],
+                "title": "PersonalityTypeConversionResponse",
+                "description": "Response model for personality type conversion."
+            },
+            "PlanResponse": {
+                "properties": {
+                    "error": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorReport"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "recommended_topics": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Recommended Topics"
+                    },
+                    "recommended_date": {
+                        "type": "string",
+                        "title": "Recommended Date"
+                    },
+                    "storage": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "type": "object",
+                        "title": "Storage",
+                        "default": {}
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "recommended_topics",
+                    "recommended_date"
+                ],
+                "title": "PlanResponse",
+                "description": "The format of the response to plan the next session."
+            },
+            "PurposeDB": {
+                "properties": {
+                    "idpurposes": {
+                        "type": "integer",
+                        "title": "Idpurposes"
+                    },
+                    "code": {
+                        "type": "string",
+                        "title": "Code"
+                    },
+                    "icon": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Icon"
+                    },
+                    "models": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Models"
+                    },
+                    "enabled": {
+                        "type": "boolean",
+                        "title": "Enabled"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "idpurposes",
+                    "code",
+                    "models",
+                    "enabled"
+                ],
+                "title": "PurposeDB",
+                "description": "DB model for LLM purposes."
+            },
+            "PurposeModel": {
+                "properties": {
+                    "id": {
+                        "$ref": "#/components/schemas/LLMPurpose"
+                    },
+                    "label": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Label"
+                    },
+                    "description": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Description"
+                    },
+                    "icon": {
+                        "type": "string",
+                        "title": "Icon"
+                    },
+                    "healthy": {
+                        "type": "boolean",
+                        "title": "Healthy"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "label",
+                    "description",
+                    "icon",
+                    "healthy"
+                ],
+                "title": "PurposeModel",
+                "description": "The selection a user can take to change the model that is used.\n\nAbstracts the difficult LLM names behind a user-friendly label. We decide for the \nuser which LLM is used for which purpose."
+            },
+            "QuizAnswers": {
+                "properties": {
+                    "question_id": {
+                        "type": "integer",
+                        "title": "Question Id"
+                    },
+                    "selected_options_ids": {
+                        "items": {
+                            "type": "integer"
+                        },
+                        "type": "array",
+                        "title": "Selected Options Ids"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "question_id",
+                    "selected_options_ids"
+                ],
+                "title": "QuizAnswers",
+                "description": "The format of the request to submit the answers to the test."
+            },
+            "QuizAnswersRequest": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "title": "Id"
+                    },
+                    "language": {
+                        "type": "string",
+                        "title": "Language"
+                    },
+                    "chat_history": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/components/schemas/Message"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/Summary"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Chat History"
+                    },
+                    "storage": {
+                        "additionalProperties": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                },
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "items": {},
+                                    "type": "array"
+                                },
+                                {
+                                    "additionalProperties": true,
+                                    "type": "object"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/LearnerModel-Input"
+                                }
+                            ]
+                        },
+                        "type": "object",
+                        "title": "Storage",
+                        "default": {}
+                    },
+                    "llm_purpose": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/LLMPurpose"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "The purpose of the LLM to use (e.g., 'optimal' or 'reasoning')"
+                    },
+                    "response_preferences": {
+                        "$ref": "#/components/schemas/ResponsePreferences"
+                    },
+                    "streaming": {
+                        "type": "boolean",
+                        "title": "Streaming",
+                        "default": false
+                    },
+                    "questions": {
+                        "items": {
+                            "oneOf": [
+                                {
+                                    "$ref": "#/components/schemas/MultipleChoiceQuestion"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/SliderQuestion"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/TextQuestion"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/FillInTheBlanksQuestion"
+                                }
+                            ],
+                            "discriminator": {
+                                "propertyName": "type",
+                                "mapping": {
+                                    "fill-in-the-blanks": "#/components/schemas/FillInTheBlanksQuestion",
+                                    "free-text": "#/components/schemas/TextQuestion",
+                                    "multiple-choice": "#/components/schemas/MultipleChoiceQuestion",
+                                    "slider": "#/components/schemas/SliderQuestion"
+                                }
+                            }
+                        },
+                        "type": "array",
+                        "title": "Questions"
+                    },
+                    "answers": {
+                        "items": {
+                            "$ref": "#/components/schemas/QuizAnswers"
+                        },
+                        "type": "array",
+                        "title": "Answers"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "language",
+                    "chat_history",
+                    "response_preferences",
+                    "questions",
+                    "answers"
+                ],
+                "title": "QuizAnswersRequest",
+                "description": "The format of the request to submit the answers to the test."
+            },
+            "QuizCompletionRequest": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "title": "Id"
+                    },
+                    "language": {
+                        "type": "string",
+                        "title": "Language"
+                    },
+                    "chat_history": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/components/schemas/Message"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/Summary"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Chat History"
+                    },
+                    "storage": {
+                        "additionalProperties": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                },
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "items": {},
+                                    "type": "array"
+                                },
+                                {
+                                    "additionalProperties": true,
+                                    "type": "object"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/LearnerModel-Input"
+                                }
+                            ]
+                        },
+                        "type": "object",
+                        "title": "Storage",
+                        "default": {}
+                    },
+                    "llm_purpose": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/LLMPurpose"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "The purpose of the LLM to use (e.g., 'optimal' or 'reasoning')"
+                    },
+                    "response_preferences": {
+                        "$ref": "#/components/schemas/ResponsePreferences"
+                    },
+                    "streaming": {
+                        "type": "boolean",
+                        "title": "Streaming",
+                        "default": false
+                    },
+                    "quiz": {
+                        "$ref": "#/components/schemas/QuizModel"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "language",
+                    "chat_history",
+                    "response_preferences",
+                    "quiz"
+                ],
+                "title": "QuizCompletionRequest",
+                "description": "The format of the request to complete the quiz."
+            },
+            "QuizCompletionResponse": {
+                "properties": {
+                    "error": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorReport"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "messages": {
+                        "items": {
+                            "$ref": "#/components/schemas/MessageResponse"
+                        },
+                        "type": "array",
+                        "title": "Messages"
+                    },
+                    "storage": {
+                        "additionalProperties": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                },
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "items": {},
+                                    "type": "array"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/LearnerModel-Output"
+                                }
+                            ]
+                        },
+                        "type": "object",
+                        "title": "Storage",
+                        "default": {}
+                    },
+                    "instructions": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Instructions",
+                        "default": []
+                    },
+                    "events": {
+                        "items": {
+                            "additionalProperties": true,
+                            "type": "object"
+                        },
+                        "type": "array",
+                        "title": "Events"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "messages",
+                    "events"
+                ],
+                "title": "QuizCompletionResponse",
+                "description": "The format of the response for completing the quiz."
+            },
+            "QuizModel": {
+                "properties": {
+                    "error": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorReport"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "id": {
+                        "type": "string",
+                        "title": "Id"
+                    },
+                    "title": {
+                        "type": "string",
+                        "title": "Title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Description"
+                    },
+                    "questions": {
+                        "items": {
+                            "oneOf": [
+                                {
+                                    "$ref": "#/components/schemas/MultipleChoiceQuestion"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/SliderQuestion"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/TextQuestion"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/FillInTheBlanksQuestion"
+                                }
+                            ],
+                            "discriminator": {
+                                "propertyName": "type",
+                                "mapping": {
+                                    "fill-in-the-blanks": "#/components/schemas/FillInTheBlanksQuestion",
+                                    "free-text": "#/components/schemas/TextQuestion",
+                                    "multiple-choice": "#/components/schemas/MultipleChoiceQuestion",
+                                    "slider": "#/components/schemas/SliderQuestion"
+                                }
+                            }
+                        },
+                        "type": "array",
+                        "title": "Questions"
+                    },
+                    "completed": {
+                        "type": "boolean",
+                        "title": "Completed",
+                        "default": false
+                    },
+                    "score": {
+                        "prefixItems": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "integer"
+                            }
+                        ],
+                        "type": "array",
+                        "maxItems": 2,
+                        "minItems": 2,
+                        "title": "Score"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "title",
+                    "description",
+                    "questions",
+                    "score"
+                ],
+                "title": "QuizModel",
+                "description": "The format of the quiz, now supporting multiple question types."
+            },
+            "QuizQuestionEvaluationRequest": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "title": "Id"
+                    },
+                    "language": {
+                        "type": "string",
+                        "title": "Language"
+                    },
+                    "chat_history": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/components/schemas/Message"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/Summary"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Chat History"
+                    },
+                    "storage": {
+                        "additionalProperties": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                },
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "items": {},
+                                    "type": "array"
+                                },
+                                {
+                                    "additionalProperties": true,
+                                    "type": "object"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/LearnerModel-Input"
+                                }
+                            ]
+                        },
+                        "type": "object",
+                        "title": "Storage",
+                        "default": {}
+                    },
+                    "llm_purpose": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/LLMPurpose"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "The purpose of the LLM to use (e.g., 'optimal' or 'reasoning')"
+                    },
+                    "response_preferences": {
+                        "$ref": "#/components/schemas/ResponsePreferences"
+                    },
+                    "streaming": {
+                        "type": "boolean",
+                        "title": "Streaming",
+                        "default": false
+                    },
+                    "question": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/MultipleChoiceQuestion"
+                            },
+                            {
+                                "$ref": "#/components/schemas/SliderQuestion"
+                            },
+                            {
+                                "$ref": "#/components/schemas/TextQuestion"
+                            },
+                            {
+                                "$ref": "#/components/schemas/FillInTheBlanksQuestion"
+                            }
+                        ],
+                        "title": "Question",
+                        "discriminator": {
+                            "propertyName": "type",
+                            "mapping": {
+                                "fill-in-the-blanks": "#/components/schemas/FillInTheBlanksQuestion",
+                                "free-text": "#/components/schemas/TextQuestion",
+                                "multiple-choice": "#/components/schemas/MultipleChoiceQuestion",
+                                "slider": "#/components/schemas/SliderQuestion"
+                            }
+                        }
+                    },
+                    "user_answer": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "items": {
+                                    "type": "integer"
+                                },
+                                "type": "array"
+                            }
+                        ],
+                        "title": "User Answer"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "language",
+                    "chat_history",
+                    "response_preferences",
+                    "question",
+                    "user_answer"
+                ],
+                "title": "QuizQuestionEvaluationRequest",
+                "description": "The format of the request to evaluate a single quiz question answer."
+            },
+            "QuizQuestionEvaluationResponse": {
+                "properties": {
+                    "error": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorReport"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "score": {
+                        "type": "integer",
+                        "title": "Score"
+                    },
+                    "max_score": {
+                        "type": "integer",
+                        "title": "Max Score"
+                    },
+                    "is_correct": {
+                        "type": "boolean",
+                        "title": "Is Correct"
+                    },
+                    "solution": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "items": {
+                                    "type": "integer"
+                                },
+                                "type": "array"
+                            }
+                        ],
+                        "title": "Solution"
+                    },
+                    "feedback": {
+                        "type": "string",
+                        "title": "Feedback"
+                    },
+                    "storage": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "type": "object",
+                        "title": "Storage",
+                        "default": {}
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "score",
+                    "max_score",
+                    "is_correct",
+                    "solution",
+                    "feedback"
+                ],
+                "title": "QuizQuestionEvaluationResponse",
+                "description": "The format of the response for a single quiz question evaluation."
+            },
+            "RefreshScadsBotsResponse": {
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "title": "Success"
+                    },
+                    "error_message": {
+                        "type": "string",
+                        "title": "Error Message",
+                        "default": ""
+                    },
+                    "bots_added": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Bots Added",
+                        "default": []
+                    },
+                    "bots_removed": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Bots Removed",
+                        "default": []
+                    },
+                    "total_bots": {
+                        "type": "integer",
+                        "title": "Total Bots",
+                        "default": 0
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "success"
+                ],
+                "title": "RefreshScadsBotsResponse",
+                "description": "Response model for refreshing ScaDS bots."
+            },
+            "RequestModel": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "title": "Id"
+                    },
+                    "language": {
+                        "type": "string",
+                        "title": "Language"
+                    },
+                    "chat_history": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/components/schemas/Message"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/Summary"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Chat History"
+                    },
+                    "storage": {
+                        "additionalProperties": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                },
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "items": {},
+                                    "type": "array"
+                                },
+                                {
+                                    "additionalProperties": true,
+                                    "type": "object"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/LearnerModel-Input"
+                                }
+                            ]
+                        },
+                        "type": "object",
+                        "title": "Storage",
+                        "default": {}
+                    },
+                    "llm_purpose": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/LLMPurpose"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "The purpose of the LLM to use (e.g., 'optimal' or 'reasoning')"
+                    },
+                    "response_preferences": {
+                        "$ref": "#/components/schemas/ResponsePreferences"
+                    },
+                    "streaming": {
+                        "type": "boolean",
+                        "title": "Streaming",
+                        "default": false
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "language",
+                    "chat_history",
+                    "response_preferences"
+                ],
+                "title": "RequestModel",
+                "description": "Request model for chat and bot endpoints.\n\nThis model contains all information sent from the frontend to the backend,\nincluding chat history, user data, and session state.\n\nArgs:\n    id (str): The unique identifier for the request, typically msg timestamp.\n    chat_history (list[Message]): The list of previous messages in the conversation.\n    language (str): The language code for localization.\n    storage (dict): Key-value store for session-specific data.\n    streaming (bool): Whether the response should be streamed.\n    response_preferences (ResponsePreferences):\n        How the user wants the response to be tailored.\n    llm_purpose (Optional[str]): Purpose for which the LLM should be auto-selected.\n\nReturns:\n    None"
+            },
+            "Response": {
+                "properties": {
+                    "error": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorReport"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "messages": {
+                        "items": {
+                            "$ref": "#/components/schemas/MessageResponse"
+                        },
+                        "type": "array",
+                        "title": "Messages"
+                    },
+                    "storage": {
+                        "additionalProperties": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                },
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "items": {},
+                                    "type": "array"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/LearnerModel-Output"
+                                }
+                            ]
+                        },
+                        "type": "object",
+                        "title": "Storage",
+                        "default": {}
+                    },
+                    "instructions": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Instructions",
+                        "default": []
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "messages"
+                ],
+                "title": "Response",
+                "description": "Represents a response from the bot.\n\nThis class encapsulates a list of message responses to be sent to the frontend.\n\nArgs:\n    messages (list[MessageResponse]): The list of message responses.\n    storage (Optional[dict[str, str]]): Key-value store for session-specific data.\n    instructions (Optional[list[str]]): Optional instructions for the frontend.\n\nReturns:\n    None"
+            },
+            "ResponsePreferences": {
+                "properties": {
+                    "detail": {
+                        "type": "integer",
+                        "title": "Detail"
+                    },
+                    "illustration": {
+                        "type": "integer",
+                        "title": "Illustration"
+                    },
+                    "language_style": {
+                        "type": "integer",
+                        "title": "Language Style"
+                    },
+                    "humour": {
+                        "type": "integer",
+                        "title": "Humour"
+                    },
+                    "creativity": {
+                        "type": "integer",
+                        "title": "Creativity"
+                    },
+                    "emojis": {
+                        "type": "integer",
+                        "title": "Emojis"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "detail",
+                    "illustration",
+                    "language_style",
+                    "humour",
+                    "creativity",
+                    "emojis"
+                ],
+                "title": "ResponsePreferences",
+                "description": "The desired preferences for the response message.\n\nEach value must be an integer from 0 to 4, where 2 is the neutral default."
+            },
+            "Skill": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "title": "Id"
+                    },
+                    "code": {
+                        "type": "string",
+                        "title": "Code"
+                    },
+                    "title": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Title"
+                    },
+                    "levels": {
+                        "items": {
+                            "$ref": "#/components/schemas/SkillLevel"
+                        },
+                        "type": "array",
+                        "title": "Levels"
+                    },
+                    "description": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Description"
+                    },
+                    "image": {
+                        "type": "string",
+                        "title": "Image",
+                        "default": ""
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "code",
+                    "title",
+                    "levels",
+                    "description"
+                ],
+                "title": "Skill",
+                "description": "Represents a skill of a topic in the learning system.\n\nThis class is used to define a skill, including its ID, title, description,\nand available levels.\n\nArgs:\n    id (str): The unique identifier for the skill.\n    title (dict): The localized titles for the skill.\n    description (dict): The localized descriptions for the skill.\n    levels (list): The list of levels for the skill.\n    image (str): The URL of the image representing the skill.\n\nReturns:\n    None"
+            },
+            "SkillLevel": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "title": "Id"
+                    },
+                    "code": {
+                        "type": "string",
+                        "title": "Code"
+                    },
+                    "title": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Title"
+                    },
+                    "description": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Description"
+                    },
+                    "learning_goals": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Learning Goals"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "code",
+                    "title",
+                    "description",
+                    "learning_goals"
+                ],
+                "title": "SkillLevel",
+                "description": "Represents a skill level.\n\nThis class is used to define a skill level, including its ID, title,\ndescription, and learning goals.\n\nArgs:\n    id (int): The unique identifier for the skill level.\n    code (str): The code of the skill level, typically used for identification.\n    title (dict): The localized titles for the skill level.\n    description (dict): The localized descriptions for the skill level.\n    learning_goals (dict): The localized learning goals for the skill level.\n\nReturns:\n    None"
+            },
+            "SliderQuestion": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "title": "Id"
+                    },
+                    "title": {
+                        "type": "string",
+                        "title": "Title"
+                    },
+                    "text": {
+                        "type": "string",
+                        "title": "Text"
+                    },
+                    "type": {
+                        "type": "string",
+                        "const": "slider",
+                        "title": "Type",
+                        "default": "slider"
+                    },
+                    "score": {
+                        "prefixItems": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "integer"
+                            }
+                        ],
+                        "type": "array",
+                        "maxItems": 2,
+                        "minItems": 2,
+                        "title": "Score"
+                    },
+                    "hint": {
+                        "type": "string",
+                        "title": "Hint"
+                    },
+                    "learning_unit": {
+                        "type": "string",
+                        "title": "Learning Unit"
+                    },
+                    "answered": {
+                        "type": "boolean",
+                        "title": "Answered",
+                        "default": false
+                    },
+                    "feedback": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Feedback"
+                    },
+                    "is_correct": {
+                        "anyOf": [
+                            {
+                                "type": "boolean"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Is Correct"
+                    },
+                    "min": {
+                        "type": "integer",
+                        "title": "Min"
+                    },
+                    "max": {
+                        "type": "integer",
+                        "title": "Max"
+                    },
+                    "step": {
+                        "type": "integer",
+                        "title": "Step"
+                    },
+                    "solution": {
+                        "type": "integer",
+                        "title": "Solution"
+                    },
+                    "answer": {
+                        "anyOf": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Answer"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "title",
+                    "text",
+                    "score",
+                    "hint",
+                    "learning_unit",
+                    "min",
+                    "max",
+                    "step",
+                    "solution"
+                ],
+                "title": "SliderQuestion",
+                "description": "The format for a slider question."
+            },
+            "Source": {
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "title": "Title"
+                    },
+                    "chunk": {
+                        "type": "string",
+                        "title": "Chunk"
+                    },
+                    "thumbnail": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Thumbnail"
+                    },
+                    "year": {
+                        "anyOf": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Year"
+                    },
+                    "authors": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Authors",
+                        "default": []
+                    },
+                    "original_language": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/LocaleType"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "additional_metadata": {
+                        "additionalProperties": true,
+                        "type": "object",
+                        "title": "Additional Metadata",
+                        "default": {}
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "title",
+                    "chunk"
+                ],
+                "title": "Source",
+                "description": "Represents a source document for a message.\n\nThis class is used to provide information about the source used for a message,\nsuch as a document or reference.\n\nArgs:\n    title (str): The title of the source.\n    url (Optional[str]): The URL of the source.\n    content (Optional[str]): The content of the source.\n\nReturns:\n    None"
+            },
+            "StatusModel": {
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "title": "Status"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "status"
+                ],
+                "title": "StatusModel",
+                "description": "Status model."
+            },
+            "Summary": {
+                "properties": {
+                    "content": {
+                        "type": "string",
+                        "title": "Content"
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/MessageType"
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "title": "Timestamp"
+                    },
+                    "summary": {
+                        "type": "string",
+                        "title": "Summary"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "content",
+                    "type",
+                    "timestamp",
+                    "summary"
+                ],
+                "title": "Summary",
+                "description": "The format of a summary message."
+            },
+            "SummaryResponse": {
+                "properties": {
+                    "error": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorReport"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "summary": {
+                        "type": "string",
+                        "title": "Summary"
+                    },
+                    "keep_last_messages_until": {
+                        "type": "integer",
+                        "title": "Keep Last Messages Until"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "summary",
+                    "keep_last_messages_until"
+                ],
+                "title": "SummaryResponse",
+                "description": "Represents a summary response for a chat session.\n\nThis class is used to return a summary of the chat and the number of\nmessages to keep after summarization.\n\nArgs:\n    summary (str): The summary text.\n    keep_last_messages_until (int): Number of messages to keep after summarization.\n\nReturns:\n    None"
+            },
+            "TextQuestion": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "title": "Id"
+                    },
+                    "title": {
+                        "type": "string",
+                        "title": "Title"
+                    },
+                    "text": {
+                        "type": "string",
+                        "title": "Text"
+                    },
+                    "type": {
+                        "type": "string",
+                        "const": "free-text",
+                        "title": "Type",
+                        "default": "free-text"
+                    },
+                    "score": {
+                        "prefixItems": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "integer"
+                            }
+                        ],
+                        "type": "array",
+                        "maxItems": 2,
+                        "minItems": 2,
+                        "title": "Score"
+                    },
+                    "hint": {
+                        "type": "string",
+                        "title": "Hint"
+                    },
+                    "learning_unit": {
+                        "type": "string",
+                        "title": "Learning Unit"
+                    },
+                    "answered": {
+                        "type": "boolean",
+                        "title": "Answered",
+                        "default": false
+                    },
+                    "feedback": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Feedback"
+                    },
+                    "is_correct": {
+                        "anyOf": [
+                            {
+                                "type": "boolean"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Is Correct"
+                    },
+                    "placeholder": {
+                        "type": "string",
+                        "title": "Placeholder"
+                    },
+                    "solution": {
+                        "type": "string",
+                        "title": "Solution"
+                    },
+                    "answer": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Answer"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "title",
+                    "text",
+                    "score",
+                    "hint",
+                    "learning_unit",
+                    "placeholder",
+                    "solution"
+                ],
+                "title": "TextQuestion",
+                "description": "The format for a free-text question."
+            },
+            "TitleResponse": {
+                "properties": {
+                    "error": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorReport"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "title": {
+                        "type": "string",
+                        "title": "Title"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "title"
+                ],
+                "title": "TitleResponse",
+                "description": "Represents a title response for a chat session.\n\nThis class is used to return a generated title for the chat session.\n\nArgs:\n    title (str): The generated title.\n\nReturns:\n    None"
+            },
+            "TopicListModel": {
+                "properties": {
+                    "topics": {
+                        "items": {
+                            "$ref": "#/components/schemas/TopicModel"
+                        },
+                        "type": "array",
+                        "title": "Topics"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "topics"
+                ],
+                "title": "TopicListModel",
+                "description": "Model representing a collection of topics."
+            },
+            "TopicModel": {
+                "properties": {
+                    "endpoint": {
+                        "type": "string",
+                        "title": "Endpoint"
+                    },
+                    "title": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Title"
+                    },
+                    "short_description": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Short Description"
+                    },
+                    "long_description": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Long Description"
+                    },
+                    "modules": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/components/schemas/Module"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/Skill"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Modules"
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/TopicType"
+                    },
+                    "features": {
+                        "items": {
+                            "$ref": "#/components/schemas/Features"
+                        },
+                        "type": "array",
+                        "title": "Features",
+                        "default": []
+                    },
+                    "color": {
+                        "type": "string",
+                        "title": "Color",
+                        "default": "#000000"
+                    },
+                    "avatar": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Avatar"
+                    },
+                    "priority": {
+                        "type": "integer",
+                        "title": "Priority",
+                        "default": 0
+                    },
+                    "optional": {
+                        "type": "boolean",
+                        "title": "Optional",
+                        "default": true
+                    },
+                    "enabled": {
+                        "type": "boolean",
+                        "title": "Enabled",
+                        "default": true
+                    },
+                    "tag": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Tag"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "endpoint",
+                    "title",
+                    "short_description",
+                    "long_description",
+                    "modules",
+                    "type"
+                ],
+                "title": "TopicModel",
+                "description": "Model representing a topic in the application."
+            },
+            "TopicType": {
+                "type": "string",
+                "enum": [
+                    "skills",
+                    "basic",
+                    "coach"
+                ],
+                "title": "TopicType",
+                "description": "Enumeration of topic types."
+            },
+            "ValidationError": {
+                "properties": {
+                    "loc": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Location"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "Error Type"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "title": "ValidationError"
+            }
+        }
+    }
+}

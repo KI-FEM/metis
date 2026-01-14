@@ -1,0 +1,1 @@
+metis_data.sql was trimmed to remove all data for the open-source release. If you want to spin up your own version of Metis, make sure to create the required data in the database before running the backend server.

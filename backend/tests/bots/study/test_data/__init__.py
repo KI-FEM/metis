@@ -1,0 +1,1 @@
+"""Module for test data for the study bot."""

@@ -1,0 +1,96 @@
+[project]
+name = "metis"
+version = "1.1.0"
+description = "Metis backend server"
+readme = "README.md"
+requires-python = "~=3.12.5"
+dependencies = [
+    "accelerate==0.33.0",
+    "bitsandbytes==0.42.0",
+    "chardet==5.2.0",
+    "coverage>=7.9.2",
+    "ctransformers==0.2.27",
+    "docling==2.14.0",
+    "faiss-cpu==1.8.0.post1",
+    "fastapi[standard]==0.115.5",
+    "fastapi-cli==0.0.5",
+    "greenlet==3.2.3",
+    "langchain==0.3.27",
+    "langchain-community==0.3.29",
+    "langchain-experimental==0.3.4",
+    "langchain-google-genai>=2.1.2",
+    "langchain-huggingface==0.1.2",
+    "langchain-ollama>=0.3.0",
+    "langchain-openai==0.3.11",
+    "langchain-postgres==0.0.14",
+    "langfuse==3.10.5",
+    "litellm==1.65.1",
+    "markdown==3.7",
+    "nltk==3.9.1",
+    "prometheus-client==0.21.1",
+    "psycopg[binary]>=3.2.9",
+    "pydantic==2.11.1",
+    "pytest==8.3.2",
+    "pytest-asyncio==0.24.0",
+    "pytest-mock==3.14.0",
+    "python-dotenv==1.0.1",
+    "ruff>=0.12.2",
+    "sentence-transformers==3.0.1",
+    "sqlalchemy==2.0.41",
+    "torch==2.4.1",
+    "transformers==4.51",
+    "unstructured==0.16.11",
+    "uvicorn==0.30.6",
+    "langchain-litellm==0.2.2",
+    "deepeval==3.2.2",
+    "flashrank>=0.2.10",
+    "langgraph>=0.6.7",
+    "langgraph-cli[inmem]>=0.4.2",
+]
+
+[tool.ruff.lint]
+# 1. Enable addtional rules.
+select = ["E", "F", "N", "I", "D", "ASYNC", "A", "C4", "LOG", "INP",  "PIE", "PT", "PTH", "ERA"]
+
+# 2. Avoid enforcing line-length violations (`E501`)
+ ignore = ["D100", "D401", "D203", "D213"]
+
+# 3. Avoid trying to fix flake8-bugbear (`B`) violations.
+# unfixable = ["B"]
+
+[tool.ruff.lint.pycodestyle]
+max-doc-length = 120
+
+[tool.ruff.lint.per-file-ignores]
+#"__init__.py" = ["E402"]
+"src/bots/citation/structure.py" = ["E501"] #ignore line length for this file
+"src/bots/*/prompts/*.py" = ["E501"]
+"src/bots/*/localization/*.py" = ["E501"]
+"src/bots/study/helpers/data_structure.py" = ["E501"]
+"src/bots/study/helpers/init_database.py" = ["E501"]
+"src/bots/study/agents/*" = ["E501", "D414", "D417", "D413"]
+"src/framework/api_types/learning_type.py" = ["E501"]
+"src/framework/db/database.py" = ["E501"]
+"src/framework/rag/retrievers/parallel_augmentation.py" = ["E501"]
+"src/framework/prometheus_fastapi_instrumentator/*" = ["ALL"]
+"src/module_loading/evaluation/*" = ["ALL"]
+"tests/bots/study/data.py" = ["E501"]
+
+[tool.ruff.format]
+# 5. Use single quotes in `ruff format`.
+# quote-style = "single"
+
+[tool.coverage.report]
+exclude_also = [
+    'def __repr__',
+    'if self.debug:',
+    'if settings.DEBUG',
+    'raise AssertionError',
+    'raise NotImplementedError',
+    'if 0:',
+    'if __name__ == .__main__.:',
+    'if TYPE_CHECKING:',
+    'class .*\bProtocol\):',
+    '@(abc\.)?abstractmethod',
+    '\A(?s:.*# pragma: exclude file.*)\Z',
+]

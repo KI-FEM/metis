@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg17
+    container_name: metis-postgres
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: postgres
+      POSTGRES_DB: metis
+      PG_MAJOR: 17
+      PG_VERSION: 17.4-1.pgdg120+2
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - metis-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: metis-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PYTHONPATH: /pgadmin4
+    ports:
+      - "8080:80"
+      - "8443:443"
+    depends_on:
+      - postgres
+    networks:
+      - metis-network
+
+volumes:
+  postgres_data:
+
+networks:
+  metis-network:
+    driver: bridge

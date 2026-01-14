@@ -1,0 +1,409 @@
+{
+  "name": "metis",
+  "tables": [
+    {
+      "name": "public.competence",
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "name": "idcompetence",
+          "type": "integer",
+          "nullable": false,
+          "default": "nextval('competence_idcompetence_seq'::regclass)"
+        },
+        {
+          "name": "createdat",
+          "type": "timestamp without time zone",
+          "nullable": false
+        },
+        {
+          "name": "updatedat",
+          "type": "timestamp without time zone",
+          "nullable": true
+        },
+        {
+          "name": "enabled",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "name": "code",
+          "type": "varchar(255)",
+          "nullable": false
+        },
+        {
+          "name": "idtopic",
+          "type": "integer",
+          "nullable": false
+        }
+      ]
+    },
+    {
+      "name": "public.competenceconcept",
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "name": "idcompetence",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "idconcept",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "createdat",
+          "type": "timestamp without time zone",
+          "nullable": false
+        },
+        {
+          "name": "updatedat",
+          "type": "timestamp without time zone",
+          "nullable": true
+        },
+        {
+          "name": "enabled",
+          "type": "boolean",
+          "nullable": false
+        }
+      ]
+    },
+    {
+      "name": "public.competencelevel",
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "name": "idcompetencelevel",
+          "type": "integer",
+          "nullable": false,
+          "default": "nextval('competencelevel_idcompetencelevel_seq'::regclass)"
+        },
+        {
+          "name": "createdat",
+          "type": "timestamp without time zone",
+          "nullable": false
+        },
+        {
+          "name": "updatedat",
+          "type": "timestamp without time zone",
+          "nullable": true
+        },
+        {
+          "name": "enabled",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "name": "code",
+          "type": "varchar(255)",
+          "nullable": false
+        }
+      ]
+    },
+    {
+      "name": "public.competenceleveltranslation",
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "name": "idcompetencelevel",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "idlanguage",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "name",
+          "type": "varchar(255)",
+          "nullable": false
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "name": "public.competencetranslation",
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "name": "idcompetence",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "idlanguage",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "name",
+          "type": "varchar(255)",
+          "nullable": false
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "name": "public.concept",
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "name": "idconcept",
+          "type": "integer",
+          "nullable": false,
+          "default": "nextval('concept_idconcept_seq'::regclass)"
+        },
+        {
+          "name": "createdat",
+          "type": "timestamp without time zone",
+          "nullable": false
+        },
+        {
+          "name": "updatedat",
+          "type": "timestamp without time zone",
+          "nullable": true
+        },
+        {
+          "name": "enabled",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "name": "code",
+          "type": "varchar(255)",
+          "nullable": false
+        }
+      ]
+    },
+    {
+      "name": "public.concepttranslation",
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "name": "idconcept",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "idlanguage",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "name",
+          "type": "varchar(255)",
+          "nullable": false
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "name": "public.language",
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "name": "idlanguage",
+          "type": "integer",
+          "nullable": false,
+          "default": "nextval('language_idlanguage_seq'::regclass)"
+        },
+        {
+          "name": "name",
+          "type": "varchar(255)",
+          "nullable": false
+        },
+        {
+          "name": "createdat",
+          "type": "timestamp without time zone",
+          "nullable": false
+        },
+        {
+          "name": "updatedat",
+          "type": "timestamp without time zone",
+          "nullable": true
+        },
+        {
+          "name": "enabled",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "name": "code",
+          "type": "varchar(2)",
+          "nullable": false
+        }
+      ]
+    },
+    {
+      "name": "public.learningsteptranslation",
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "name": "idstep",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "idlanguage",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "name",
+          "type": "varchar(255)",
+          "nullable": false
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "name": "public.learningunit",
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "name": "idlearningunit",
+          "type": "integer",
+          "nullable": false,
+          "default": "nextval('learningunit_idlearningunit_seq'::regclass)"
+        },
+        {
+          "name": "idstep",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "idconcept",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "idcompetencelevel",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "createdat",
+          "type": "timestamp without time zone",
+          "nullable": false
+        },
+        {
+          "name": "updatedat",
+          "type": "timestamp without time zone",
+          "nullable": true
+        },
+        {
+          "name": "enabled",
+          "type": "boolean",
+          "nullable": false
+        }
+      ]
+    },
+    {
+      "name": "public.learningunittranslation",
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "name": "idlearningunit",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "idlanguage",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "learninggoal",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "task",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "solution",
+          "type": "text",
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "name": "public.topic",
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "name": "idtopic",
+          "type": "integer",
+          "nullable": false,
+          "default": "nextval('topic_idtopic_seq'::regclass)"
+        },
+        {
+          "name": "code",
+          "type": "varchar(255)",
+          "nullable": false
+        },
+        {
+          "name": "createdat",
+          "type": "timestamp without time zone",
+          "nullable": false
+        },
+        {
+          "name": "updatedat",
+          "type": "timestamp without time zone",
+          "nullable": true
+        },
+        {
+          "name": "enabled",
+          "type": "boolean",
+          "nullable": false
+        }
+      ]
+    },
+    {
+      "name": "public.topictranslation",
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "name": "idtopic",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "idlanguage",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "name",
+          "type": "varchar(255)",
+          "nullable": true
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "nullable": true
+        }
+      ]
+    }
+  ]
+}
