@@ -1,0 +1,14 @@
+# Editors
+.idea/
+.vscode/
+.cursorignore
+
+# macOS
+.DS_Store
+
+# Python Virtual Environment
+.venv/
+
+# CI caches
+.cache/
+nltk_data/

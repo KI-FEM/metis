@@ -1,0 +1,77 @@
+{
+  "MAX_MESSAGES_BEFORE_SUMMARIZATION": 64,
+  "KEEP_LAST_MESSAGES_UNTIL": 16,
+  "MULTI_QUERY_RETRIEVER": true,
+  "MODELS_REFRESH_THRESHOLD": 86400,
+  "AI_MODELS": {
+    "purposes": [
+      {
+        "id": "optimal",
+        "label": {
+          "en": "Optimal",
+          "de": "Optimal"
+        },
+        "description": {
+          "en": "Optimal model for everyday tasks.",
+          "de": "Optimales Modell für alltägliche Aufgaben."
+        },
+        "icon": "fas fa-check-circle",
+        "models": [
+          "llama-3.3",
+          "gemma-3",
+          "llama-4",
+          "qwq-32b"
+        ]
+      },
+      {
+        "id": "reasoning",
+        "label": {
+          "en": "Analytical",
+          "de": "Analytisch"
+        },
+        "description": {
+          "en": "Model for deep thinking tasks.",
+          "de": "Modell für tiefes Denken."
+        },
+        "icon": "fas fa-brain",
+        "models": [
+          "qwq-32b",
+          "deepseek-r1"
+        ]
+      },
+      {
+        "id": "german",
+        "label": {
+          "en": "German",
+          "de": "Deutsch"
+        },
+        "description": {
+          "en": "Models fine-tuned for german language.",
+          "de": "Modell für die deutsche Sprache."
+        },
+        "icon": "fas fa-language",
+        "models": [
+          "gemma-3",
+          "llama-3.1-sauerkrautlm-70b",
+          "llama-3.3",
+          "qwq-32b"
+        ]
+      },
+      {
+        "id": "gemini",
+        "label": {
+          "en": "Gemini",
+          "de": "Gemini"
+        },
+        "description": {
+          "en": "Google's Gemini model.",
+          "de": "Google's Gemini-Modell."
+        },
+        "icon": "fas fa-robot",
+        "models": [
+          "gemini-2.5-flash"
+        ]
+      }
+    ]
+  }
+}

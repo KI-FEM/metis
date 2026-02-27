@@ -1,0 +1,41 @@
+[tool.ruff.lint]
+# 1. Enable addtional rules.
+select = ["E", "F", "N", "I", "D", "ASYNC", "A", "C4", "LOG", "INP",  "PIE", "PT", "PTH", "ERA"]
+
+# 2. Avoid enforcing line-length violations (`E501`)
+ ignore = ["D100", "D401", "D203", "D213"]
+
+# 3. Avoid trying to fix flake8-bugbear (`B`) violations.
+# unfixable = ["B"]
+
+[tool.ruff.lint.pycodestyle]
+max-doc-length = 120
+
+[tool.ruff.lint.per-file-ignores]
+#"__init__.py" = ["E402"]
+"src/bots/citation/structure.py" = ["E501"] #ignore line length for this file
+"src/bots/*/prompts/*.py" = ["E501"]
+"src/bots/*/localization/*.py" = ["E501"]
+"src/bots/study/helpers/data_structure.py" = ["E501"]
+"src/framework/api_types/learning_type.py" = ["E501"]
+"src/framework/prometheus_fastapi_instrumentator/*" = ["ALL"]
+"tests/bots/study/data.py" = ["E501"]
+
+[tool.ruff.format]
+# 5. Use single quotes in `ruff format`.
+# quote-style = "single"
+
+[tool.coverage.report]
+exclude_also = [
+    'def __repr__',
+    'if self.debug:',
+    'if settings.DEBUG',
+    'raise AssertionError',
+    'raise NotImplementedError',
+    'if 0:',
+    'if __name__ == .__main__.:',
+    'if TYPE_CHECKING:',
+    'class .*\bProtocol\):',
+    '@(abc\.)?abstractmethod',
+    '\A(?s:.*# pragma: exclude file.*)\Z',
+]

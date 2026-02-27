@@ -1,0 +1,1609 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "FastAPI",
+        "version": "0.1.0"
+    },
+    "paths": {
+        "/learning_types": {
+            "get": {
+                "summary": "Get Learning Types",
+                "description": "Retrieve set learning types.",
+                "operationId": "get_learning_types_learning_types_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LearningTypesResponseModel"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/health": {
+            "get": {
+                "summary": "Health",
+                "description": "Liveness probe endpoint - checks if the application is running.",
+                "operationId": "health_health_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StatusModel"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/health/ready": {
+            "get": {
+                "summary": "Health Ready",
+                "description": "Readiness probe endpoint.\n\nYou might want to add more checks here, such as:\n- Database connectivity\n- External service dependencies\n- Cache availability",
+                "operationId": "health_ready_health_ready_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/topics": {
+            "get": {
+                "summary": "Get Topics",
+                "description": "Retrieve registered topics.",
+                "operationId": "get_topics_topics_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TopicListModel"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/models": {
+            "get": {
+                "summary": "Get Models",
+                "description": "Retrieve available LLM models with their health status.",
+                "operationId": "get_models_models_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AIModelsResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/topic/{topic}/modules": {
+            "get": {
+                "summary": "Get Modules",
+                "description": "Retrieve modules of the bot.",
+                "operationId": "get_modules_topic__topic__modules_get",
+                "parameters": [
+                    {
+                        "name": "topic",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Topic"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ModulesResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/models/health": {
+            "get": {
+                "summary": "Get Models Health",
+                "description": "Get the health of the models.",
+                "operationId": "get_models_health_models_health_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "additionalProperties": {
+                                        "type": "string"
+                                    },
+                                    "type": "object",
+                                    "title": "Response Get Models Health Models Health Get"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/topic/{topic}": {
+            "post": {
+                "summary": "Init Chat",
+                "operationId": "init_chat_topic__topic__post",
+                "parameters": [
+                    {
+                        "name": "topic",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Topic"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RequestModel"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Response"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/topic/{topic}/message": {
+            "post": {
+                "summary": "Chat Invoke",
+                "operationId": "chat_invoke_topic__topic__message_post",
+                "parameters": [
+                    {
+                        "name": "topic",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Topic"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RequestModel"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Response"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/topic/{topic}/title": {
+            "post": {
+                "summary": "Update Title",
+                "operationId": "update_title_topic__topic__title_post",
+                "parameters": [
+                    {
+                        "name": "topic",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Topic"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RequestModel"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TitleResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/topic/{topic}/summarize": {
+            "post": {
+                "summary": "Summarize",
+                "description": "Summarize the chat history asynchronously.",
+                "operationId": "summarize_topic__topic__summarize_post",
+                "parameters": [
+                    {
+                        "name": "topic",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Topic"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RequestModel"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SummaryResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/topic/{topic}/{endpoint}": {
+            "post": {
+                "summary": "Action Callback",
+                "operationId": "action_callback_topic__topic___endpoint__post",
+                "parameters": [
+                    {
+                        "name": "topic",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Topic"
+                        }
+                    },
+                    {
+                        "name": "endpoint",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Endpoint"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RequestModel"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/learning_types/from_personality/{personality_type}": {
+            "get": {
+                "summary": "Convert Personality Type",
+                "description": "Convert personality type to learning type.",
+                "operationId": "convert_personality_type_learning_types_from_personality__personality_type__get",
+                "parameters": [
+                    {
+                        "name": "personality_type",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/PersonalityType"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PersonalityTypeConversionResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/configure": {
+            "post": {
+                "summary": "Set Bots Disabled",
+                "operationId": "set_bots_disabled_admin_configure_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ConfigureTopicsRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConfigureTopicsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/config": {
+            "post": {
+                "summary": "Update Config",
+                "description": "Update the configuration file with new values.",
+                "operationId": "update_config_admin_config_post",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ConfigUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConfigureTopicsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Get Config By Key",
+                "description": "Get the current configuration values using query parameter.",
+                "operationId": "get_config_by_key_admin_config_get",
+                "parameters": [
+                    {
+                        "name": "key",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "title": "Key"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConfigReadResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AIModelsResponse": {
+                "properties": {
+                    "purposes": {
+                        "items": {
+                            "$ref": "#/components/schemas/PurposeModel"
+                        },
+                        "type": "array",
+                        "title": "Purposes"
+                    },
+                    "timestamp": {
+                        "type": "number",
+                        "title": "Timestamp"
+                    },
+                    "config": {
+                        "$ref": "#/components/schemas/ChatConfig"
+                    },
+                    "error": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Error"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "purposes",
+                    "timestamp",
+                    "config"
+                ],
+                "title": "AIModelsResponse",
+                "description": "Response model for models with status."
+            },
+            "AvailableLearningTypes": {
+                "type": "string",
+                "enum": [
+                    "FEELING",
+                    "SENSING",
+                    "INTUITIVE",
+                    "THINKING"
+                ],
+                "title": "AvailableLearningTypes",
+                "description": "Enumeration of available learning types.\n\nThis enum lists all available learning types for the application.\n\nArgs:\n    ...\n\nReturns:\n    None"
+            },
+            "Button": {
+                "properties": {
+                    "chat_message": {
+                        "type": "string",
+                        "title": "Chat Message"
+                    },
+                    "label": {
+                        "type": "string",
+                        "title": "Label"
+                    },
+                    "callback": {
+                        "$ref": "#/components/schemas/ButtonCallback"
+                    },
+                    "store": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "type": "object",
+                        "title": "Store",
+                        "default": {}
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "chat_message",
+                    "label",
+                    "callback"
+                ],
+                "title": "Button",
+                "description": "Represents a button in the chat UI.\n\nThis class is used to define a button that can be displayed in the chat\ninterface, including its label, callback, and optional chat message or state\nstore.\n\nArgs:\n    label (str): The text displayed on the button.\n    callback (ButtonCallback): The callback to be triggered when the button\n        is pressed.\n    chat_message (Optional[str]): The message to send when the button is pressed.\n    store (Optional[dict]): State to store when the button is pressed.\n\nReturns:\n    None"
+            },
+            "ButtonCallback": {
+                "properties": {
+                    "endpoint": {
+                        "type": "string",
+                        "title": "Endpoint"
+                    },
+                    "data": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "type": "object",
+                        "title": "Data"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "endpoint",
+                    "data"
+                ],
+                "title": "ButtonCallback",
+                "description": "Represents a callback for a button.\n\nThis class defines the callback endpoint and data to be sent when a button\nis pressed in the chat UI.\n\nArgs:\n    endpoint (str): The endpoint to call.\n    data (dict): The data to send to the endpoint.\n\nReturns:\n    None"
+            },
+            "ChatConfig": {
+                "properties": {
+                    "max_messages_before_summarization": {
+                        "type": "integer",
+                        "title": "Max Messages Before Summarization"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "max_messages_before_summarization"
+                ],
+                "title": "ChatConfig",
+                "description": "Configuration from the backend for the chat in the frontend.\n\nArgs:\n    max_messages_before_summarization (int): The maximum number of messages before\n        summarization is triggered."
+            },
+            "ConfigReadResponse": {
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "title": "Success"
+                    },
+                    "error_message": {
+                        "type": "string",
+                        "title": "Error Message",
+                        "default": ""
+                    },
+                    "config": {
+                        "anyOf": [
+                            {
+                                "additionalProperties": true,
+                                "type": "object"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Config"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "success"
+                ],
+                "title": "ConfigReadResponse",
+                "description": "Response model for reading configuration."
+            },
+            "ConfigUpdateRequest": {
+                "properties": {
+                    "key": {
+                        "type": "string",
+                        "title": "Key"
+                    },
+                    "updates": {
+                        "additionalProperties": true,
+                        "type": "object",
+                        "title": "Updates",
+                        "description": "Config values to update"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "key",
+                    "updates"
+                ],
+                "title": "ConfigUpdateRequest",
+                "description": "Request model for updating configuration values."
+            },
+            "ConfigureTopicsRequest": {
+                "properties": {
+                    "key": {
+                        "type": "string",
+                        "title": "Key"
+                    },
+                    "enabled": {
+                        "additionalProperties": {
+                            "type": "boolean"
+                        },
+                        "type": "object",
+                        "title": "Enabled"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "key",
+                    "enabled"
+                ],
+                "title": "ConfigureTopicsRequest",
+                "description": "Request model for configuring topics."
+            },
+            "ConfigureTopicsResponse": {
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "title": "Success"
+                    },
+                    "error_message": {
+                        "type": "string",
+                        "title": "Error Message",
+                        "default": ""
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "success"
+                ],
+                "title": "ConfigureTopicsResponse",
+                "description": "Response model for configuring topics."
+            },
+            "Features": {
+                "type": "string",
+                "enum": [
+                    "title",
+                    "inspirations",
+                    "initiative",
+                    "quiz",
+                    "feedback",
+                    "plan",
+                    "streaming",
+                    "summary",
+                    "aimodel"
+                ],
+                "title": "Features",
+                "description": "Features of the bot."
+            },
+            "HTTPValidationError": {
+                "properties": {
+                    "detail": {
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        },
+                        "type": "array",
+                        "title": "Detail"
+                    }
+                },
+                "type": "object",
+                "title": "HTTPValidationError"
+            },
+            "LLM": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "title": "Id"
+                    },
+                    "model_name": {
+                        "type": "string",
+                        "title": "Model Name"
+                    },
+                    "label": {
+                        "type": "string",
+                        "title": "Label"
+                    },
+                    "api_base_url": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Api Base Url"
+                    },
+                    "status": {
+                        "$ref": "#/components/schemas/LLMStatus"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "model_name",
+                    "label",
+                    "status"
+                ],
+                "title": "LLM",
+                "description": "Represents a language model (LLM) configuration.\n\nThis class is used to represent a language model in the code.\n\nArgs:\n    id (str): The unique identifier for the LLM in LiteLLM.\n    model_name (str): The base name of the LLM.\n    label (str): The label of the LLM for endusers.\n    api_base_url (str): The base URL for the LLM API.\n    status (LLMStatus): The status of the LLM ('healthy' / 'unhealthy').\n\nReturns:\n    None"
+            },
+            "LLMPurpose": {
+                "type": "string",
+                "enum": [
+                    "optimal",
+                    "reasoning",
+                    "german",
+                    "gemini"
+                ],
+                "title": "LLMPurpose",
+                "description": "Purpose of the LLM."
+            },
+            "LLMStatus": {
+                "type": "string",
+                "enum": [
+                    "healthy",
+                    "unhealthy"
+                ],
+                "title": "LLMStatus",
+                "description": "Status of the LLM."
+            },
+            "LearningTypeModel": {
+                "properties": {
+                    "id": {
+                        "$ref": "#/components/schemas/AvailableLearningTypes"
+                    },
+                    "title": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Title"
+                    },
+                    "short_description": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Short Description"
+                    },
+                    "long_description": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Long Description"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "title",
+                    "short_description",
+                    "long_description"
+                ],
+                "title": "LearningTypeModel",
+                "description": "Represents a learning type model.\n\nThis class is used to define a learning type, including its ID, name, and\ndescription.\n\nArgs:\n    id (str): The unique identifier for the learning type.\n    name (str): The name of the learning type.\n    description (str): The description of the learning type.\n\nReturns:\n    None"
+            },
+            "LearningTypesResponseModel": {
+                "properties": {
+                    "learning_types": {
+                        "items": {
+                            "$ref": "#/components/schemas/LearningTypeModel"
+                        },
+                        "type": "array",
+                        "title": "Learning Types"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "learning_types"
+                ],
+                "title": "LearningTypesResponseModel",
+                "description": "Model for the available learning types."
+            },
+            "LocaleType": {
+                "type": "string",
+                "enum": [
+                    "en",
+                    "de"
+                ],
+                "title": "LocaleType",
+                "description": "Represents supported locale types.\n\nThis enum is used to define the supported locales for the application, such as\nEnglish and German.\n\nArgs:\n    EN: English locale.\n    DE: German locale.\n\nReturns:\n    None"
+            },
+            "Message": {
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "sender": {
+                        "$ref": "#/components/schemas/Sender"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "message",
+                    "sender"
+                ],
+                "title": "Message",
+                "description": "Represents a single chat message.\n\nThis model is used to encapsulate a message exchanged in the chat, including\nthe sender, content, and optional metadata.\n\nArgs:\n    message (str): The content of the message.\n    sender (str): The sender of the message (e.g., 'user', 'assistant').\n    summary (Optional[str]): Optional summary of the message.\n\nReturns:\n    None"
+            },
+            "MessageResponse": {
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "sender": {
+                        "$ref": "#/components/schemas/Sender",
+                        "default": "assistant"
+                    },
+                    "thoughts": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Thoughts"
+                    },
+                    "buttons": {
+                        "items": {
+                            "$ref": "#/components/schemas/Button"
+                        },
+                        "type": "array",
+                        "title": "Buttons",
+                        "default": []
+                    },
+                    "meta_information": {
+                        "$ref": "#/components/schemas/MetaInformation",
+                        "default": {}
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "message"
+                ],
+                "title": "MessageResponse",
+                "description": "Represents a message response from the bot.\n\nThis class is used to encapsulate a message sent by the bot, including the\nmessage content, sender, optional buttons, and meta information.\n\nArgs:\n    message (str): The message content.\n    sender (Optional[str]): The sender of the message.\n    buttons (Optional[list[Button]]): List of buttons to display.\n    meta_information (Optional[MetaInformation]): Additional metadata for\n        the message.\n    thoughts (Optional[str]): Optional thoughts or reasoning.\n\nReturns:\n    None"
+            },
+            "MetaInformation": {
+                "properties": {
+                    "sources": {
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/Source"
+                        },
+                        "type": "object",
+                        "title": "Sources"
+                    },
+                    "citations": {
+                        "items": {
+                            "type": "integer"
+                        },
+                        "type": "array",
+                        "title": "Citations"
+                    },
+                    "llm_model": {
+                        "type": "string",
+                        "title": "Llm Model"
+                    }
+                },
+                "type": "object",
+                "title": "MetaInformation",
+                "description": "Contains meta information for a message.\n\nThis class holds metadata such as sources and the LLM model used for\ngenerating the message.\n\nArgs:\n    sources (Optional[dict[int, Source]]): The sources for the message identified by\n        an integer id.\n    llm_model (Optional[str]): The name of the LLM model used.\n\nReturns:\n    None"
+            },
+            "Module": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "title": "Id"
+                    },
+                    "title": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Title"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "title"
+                ],
+                "title": "Module",
+                "description": "Represents a simple module of a topic.\n\nThis class is used to define a module, including its ID and title.\nIn contrast to the Skill class, this class does not have multiple levels.\n\nArgs:\n    id (str): The unique identifier for the module.\n    title (dict): The localized titles for the module.\n    \nReturns:\n    None\n    "
+            },
+            "ModulesResponse": {
+                "properties": {
+                    "modules": {
+                        "items": {
+                            "$ref": "#/components/schemas/Module"
+                        },
+                        "type": "array",
+                        "title": "Modules"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "modules"
+                ],
+                "title": "ModulesResponse",
+                "description": "A Response model for retrieving multiple modules.\n\nThis model is used to return a list of modules.\n\nArgs:\n    modules (list[Module]): A list of modules.\n    \nReturns:\n    None\n    "
+            },
+            "PersonalityType": {
+                "type": "string",
+                "enum": [
+                    "ISTJ",
+                    "ISFJ",
+                    "ESTP",
+                    "ESFP",
+                    "INFJ",
+                    "INTJ",
+                    "ENFP",
+                    "ENTP",
+                    "ISTP",
+                    "INTP",
+                    "ESTJ",
+                    "ENTJ",
+                    "ISFP",
+                    "INFP",
+                    "ESFJ",
+                    "ENFJ"
+                ],
+                "title": "PersonalityType",
+                "description": "Enumeration of the 16 personality types."
+            },
+            "PersonalityTypeConversionResponse": {
+                "properties": {
+                    "learning_type": {
+                        "$ref": "#/components/schemas/AvailableLearningTypes"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "learning_type"
+                ],
+                "title": "PersonalityTypeConversionResponse",
+                "description": "Response model for personality type conversion."
+            },
+            "PurposeModel": {
+                "properties": {
+                    "id": {
+                        "$ref": "#/components/schemas/LLMPurpose"
+                    },
+                    "label": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Label"
+                    },
+                    "description": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Description"
+                    },
+                    "icon": {
+                        "type": "string",
+                        "title": "Icon"
+                    },
+                    "healthy": {
+                        "type": "boolean",
+                        "title": "Healthy"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "label",
+                    "description",
+                    "icon",
+                    "healthy"
+                ],
+                "title": "PurposeModel",
+                "description": "The selection a user can take to change the model that is used.\n\nAbstracts the difficult LLM names behind a user-friendly label. We decide for the \nuser which LLM is used for which purpose."
+            },
+            "RequestModel": {
+                "properties": {
+                    "learning_type_id": {
+                        "$ref": "#/components/schemas/AvailableLearningTypes"
+                    },
+                    "language": {
+                        "type": "string",
+                        "title": "Language"
+                    },
+                    "chat_history": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/components/schemas/Message"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/Summary"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Chat History"
+                    },
+                    "storage": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "type": "object",
+                        "title": "Storage",
+                        "default": {}
+                    },
+                    "llm": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/LLM"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "llm_purpose": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/LLMPurpose"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "The purpose of the LLM to use (e.g., 'optimal' or 'reasoning')"
+                    },
+                    "streaming": {
+                        "type": "boolean",
+                        "title": "Streaming",
+                        "default": false
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "learning_type_id",
+                    "language",
+                    "chat_history"
+                ],
+                "title": "RequestModel",
+                "description": "Request model for chat and bot endpoints.\n\nThis model contains all information sent from the frontend to the backend,\nincluding chat history, user data, and session state.\n\nArgs:\n    learning_type_id (AvailableLearningTypes): The ID of the learning type.\n    chat_history (list[Message]): The list of previous messages in the conversation.\n    language (str): The language code for localization.\n    storage (dict): Key-value store for session-specific data.\n    streaming (bool): Whether the response should be streamed.\n    llm (Optional[LLM]): The requested language model.\n    llm_purpose (Optional[str]): Purpose for which the LLM should be auto-selected.\n\nReturns:\n    None"
+            },
+            "Response": {
+                "properties": {
+                    "messages": {
+                        "items": {
+                            "$ref": "#/components/schemas/MessageResponse"
+                        },
+                        "type": "array",
+                        "title": "Messages"
+                    },
+                    "storage": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "type": "object",
+                        "title": "Storage",
+                        "default": {}
+                    },
+                    "instructions": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Instructions",
+                        "default": []
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "messages"
+                ],
+                "title": "Response",
+                "description": "Represents a response from the bot.\n\nThis class encapsulates a list of message responses to be sent to the frontend.\n\nArgs:\n    messages (list[MessageResponse]): The list of message responses.\n    storage (Optional[dict[str, str]]): Key-value store for session-specific data.\n    instructions (Optional[list[str]]): Optional instructions for the frontend.\n\nReturns:\n    None"
+            },
+            "Sender": {
+                "type": "string",
+                "enum": [
+                    "assistant",
+                    "user",
+                    "system"
+                ],
+                "title": "Sender",
+                "description": "The sender of a message."
+            },
+            "Skill": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "title": "Id"
+                    },
+                    "title": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Title"
+                    },
+                    "levels": {
+                        "items": {
+                            "$ref": "#/components/schemas/SkillLevel"
+                        },
+                        "type": "array",
+                        "title": "Levels"
+                    },
+                    "description": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Description"
+                    },
+                    "image": {
+                        "type": "string",
+                        "title": "Image",
+                        "default": ""
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "title",
+                    "levels",
+                    "description"
+                ],
+                "title": "Skill",
+                "description": "Represents a skill of a topic in the learning system.\n\nThis class is used to define a skill, including its ID, title, description,\nand available levels.\n\nArgs:\n    id (str): The unique identifier for the skill.\n    title (dict): The localized titles for the skill.\n    description (dict): The localized descriptions for the skill.\n    levels (list): The list of levels for the skill.\n    image (str): The URL of the image representing the skill.\n\nReturns:\n    None"
+            },
+            "SkillLevel": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "title": "Id"
+                    },
+                    "title": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Title"
+                    },
+                    "description": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Description"
+                    },
+                    "learning_goals": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Learning Goals"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "title",
+                    "description",
+                    "learning_goals"
+                ],
+                "title": "SkillLevel",
+                "description": "Represents a skill level.\n\nThis class is used to define a skill level, including its ID, title,\ndescription, and learning goals.\n\nArgs:\n    id (str): The unique identifier for the skill level.\n    title (dict): The localized titles for the skill level.\n    description (dict): The localized descriptions for the skill level.\n    learning_goals (dict): The localized learning goals for the skill level.\n\nReturns:\n    None"
+            },
+            "Source": {
+                "properties": {
+                    "label": {
+                        "type": "string",
+                        "title": "Label"
+                    },
+                    "chunk": {
+                        "type": "string",
+                        "title": "Chunk"
+                    },
+                    "url": {
+                        "type": "string",
+                        "title": "Url"
+                    },
+                    "additional_metadata": {
+                        "additionalProperties": true,
+                        "type": "object",
+                        "title": "Additional Metadata",
+                        "default": {}
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "label",
+                    "chunk",
+                    "url"
+                ],
+                "title": "Source",
+                "description": "Represents a source document for a message.\n\nThis class is used to provide information about the source used for a message,\nsuch as a document or reference.\n\nArgs:\n    title (str): The title of the source.\n    url (Optional[str]): The URL of the source.\n    content (Optional[str]): The content of the source.\n\nReturns:\n    None"
+            },
+            "StatusModel": {
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "title": "Status"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "status"
+                ],
+                "title": "StatusModel",
+                "description": "Status model."
+            },
+            "Summary": {
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "sender": {
+                        "$ref": "#/components/schemas/Sender"
+                    },
+                    "summary": {
+                        "type": "string",
+                        "title": "Summary"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "message",
+                    "sender",
+                    "summary"
+                ],
+                "title": "Summary",
+                "description": "The format of a summary message."
+            },
+            "SummaryResponse": {
+                "properties": {
+                    "summary": {
+                        "type": "string",
+                        "title": "Summary"
+                    },
+                    "keep_last_messages_until": {
+                        "type": "integer",
+                        "title": "Keep Last Messages Until"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "summary",
+                    "keep_last_messages_until"
+                ],
+                "title": "SummaryResponse",
+                "description": "Represents a summary response for a chat session.\n\nThis class is used to return a summary of the chat and the number of\nmessages to keep after summarization.\n\nArgs:\n    summary (str): The summary text.\n    keep_last_messages_until (int): Number of messages to keep after summarization.\n\nReturns:\n    None"
+            },
+            "TitleResponse": {
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "title": "Title"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "title"
+                ],
+                "title": "TitleResponse",
+                "description": "Represents a title response for a chat session.\n\nThis class is used to return a generated title for the chat session.\n\nArgs:\n    title (str): The generated title.\n\nReturns:\n    None"
+            },
+            "Topic": {
+                "type": "string",
+                "enum": [
+                    "study_competence",
+                    "citation",
+                    "passthrough",
+                    "st"
+                ],
+                "title": "Topic",
+                "description": "Enum of all available topics."
+            },
+            "TopicListModel": {
+                "properties": {
+                    "topics": {
+                        "items": {
+                            "$ref": "#/components/schemas/TopicModel"
+                        },
+                        "type": "array",
+                        "title": "Topics"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "topics"
+                ],
+                "title": "TopicListModel",
+                "description": "Model representing a collection of topics."
+            },
+            "TopicModel": {
+                "properties": {
+                    "endpoint": {
+                        "$ref": "#/components/schemas/Topic"
+                    },
+                    "title": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Title"
+                    },
+                    "short_description": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Short Description"
+                    },
+                    "long_description": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "propertyNames": {
+                            "$ref": "#/components/schemas/LocaleType"
+                        },
+                        "type": "object",
+                        "title": "Long Description"
+                    },
+                    "modules": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/components/schemas/Module"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/Skill"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Modules"
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/TopicType"
+                    },
+                    "features": {
+                        "items": {
+                            "$ref": "#/components/schemas/Features"
+                        },
+                        "type": "array",
+                        "title": "Features",
+                        "default": []
+                    },
+                    "color": {
+                        "type": "string",
+                        "title": "Color",
+                        "default": "#000000"
+                    },
+                    "priority": {
+                        "type": "integer",
+                        "title": "Priority",
+                        "default": 0
+                    },
+                    "enabled": {
+                        "type": "boolean",
+                        "title": "Enabled",
+                        "default": true
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "endpoint",
+                    "title",
+                    "short_description",
+                    "long_description",
+                    "modules",
+                    "type"
+                ],
+                "title": "TopicModel",
+                "description": "Model representing a topic in the application."
+            },
+            "TopicType": {
+                "type": "string",
+                "enum": [
+                    "skills",
+                    "basic"
+                ],
+                "title": "TopicType",
+                "description": "Enumeration of topic types."
+            },
+            "ValidationError": {
+                "properties": {
+                    "loc": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Location"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "Error Type"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "title": "ValidationError"
+            }
+        }
+    }
+}
